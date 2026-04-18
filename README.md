@@ -4,7 +4,9 @@
 ## 👥 Team Members
 - **Benjamín Ibañez** – Project Owner  
 - **Ramiro Averbuj** – Development Team  
-- **Ignacio Álvarez** – Development Team  
+- **Ignacio Álvarez** – Development Team
+- **Santiago Adrián Mamani** – Development Team  
+- **Tomas Fleitas** – Development Team  
 - **Benjamín Korstanje** – Scrum Master  
 
 Guided by professors: **Damian Olaso** and **Gonzalo Nicolas Consorti**
