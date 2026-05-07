@@ -1,0 +1,251 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="cHIGkv1iuSEgAYjb7-VT">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <object label="" code="sequenceDiagram&#xa;    actor Cliente&#xa;    actor Supervisor&#xa;    actor Operario&#xa;    actor Administrador&#xa;    participant Sistema&#xa;    participant BD as &quot;BD (Sistema)&quot;&#xa;&#xa;    Cliente-&gt;&gt;Sistema: 1. Solicitar compra de animal (animalID)&#xa;&#xa;    Sistema-&gt;&gt;BD: 2. Obtener datos del animal (animalID)&#xa;    BD--&gt;&gt;Sistema: 3. Datos (edad, vacunas, estado, precio, etc.)&#xa;&#xa;    Sistema-&gt;&gt;Sistema: 4. Validar edad legal&#xa;&#xa;    alt Edad NO válida&#xa;        Sistema--&gt;&gt;Cliente: 5a. Venta rechazada: edad ilegal&#xa;    else Edad válida&#xa;        Sistema-&gt;&gt;Sistema: 5b. Continuar validaciones&#xa;    end&#xa;&#xa;    alt Animal NO apto&#xa;        Sistema--&gt;&gt;Cliente: 6b. Venta rechazada: animal no apto&#xa;    else Animal apto para venta&#xa;        Sistema-&gt;&gt;Sistema: 6a. Validar estado sanitario y vacunas&#xa;        Sistema-&gt;&gt;Sistema: 6c. Animal apto&#xa;    end&#xa;&#xa;    Operario-&gt;&gt;Administrador: 7. Solicitar aprobación de venta&#xa;    Administrador--&gt;&gt;Supervisor: 8. Aprobación / Rechazo&#xa;&#xa;    alt Rechazada&#xa;        Administrador--&gt;&gt;Cliente: 8a. Venta rechazada&#xa;    else Aprobada&#xa;        Administrador-&gt;&gt;Administrador: 8b. Venta aprobada&#xa;    end&#xa;&#xa;    Administrador-&gt;&gt;Sistema: 9. Asignar operario&#xa;    Sistema--&gt;&gt;Administrador: 10. Operario asignado&#xa;&#xa;    Operario-&gt;&gt;Administrador: 11. Preparar animal y transporte&#xa;    Administrador--&gt;&gt;Operario: 12. Preparación lista&#xa;&#xa;    opt Verificación previa al envío&#xa;        Sistema-&gt;&gt;Sistema: 13. Verificar condiciones&#xa;        Sistema-&gt;&gt;BD: 14. Registrar preparación&#xa;        BD--&gt;&gt;Sistema: 15. OK&#xa;    end&#xa;&#xa;    Sistema-&gt;&gt;BD: 16. Registrar venta (cliente, animal, precio, etc.)&#xa;    BD--&gt;&gt;Sistema: 17. OK&#xa;&#xa;    Sistema-&gt;&gt;BD: 18. Registrar envío / entrega&#xa;    BD--&gt;&gt;Sistema: 19. OK&#xa;&#xa;    Sistema--&gt;&gt;Supervisor: 20. Entrega confirmada&#xa;    Supervisor--&gt;&gt;Cliente: 21. Compra exitosa" id="0">
+          <mxCell />
+        </object>
+        <mxCell id="1" parent="0" />
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Cliente" vertex="1">
+          <mxGeometry height="2144" width="35" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Supervisor" vertex="1">
+          <mxGeometry height="2144" width="35" x="225" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Operario" vertex="1">
+          <mxGeometry height="2144" width="35" x="425" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-6" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Administrador" vertex="1">
+          <mxGeometry height="2144" width="35" x="721" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-7" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Sistema" vertex="1">
+          <mxGeometry height="2144" width="150" x="947" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-8" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="&quot;BD (Sistema)&quot;" vertex="1">
+          <mxGeometry height="2144" width="150" x="1347" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-9" parent="1" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30;fillColor=light-dark(#eeeeee,#1f2020);fontColor=light-dark(#333333,#cccccc);" value="if" vertex="1">
+          <mxGeometry height="256" width="1042" x="84" y="333" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-10" parent="SwFNO5R2xhA26Hp-94C7-9" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" value="[Edad NO válida]" vertex="1">
+          <mxGeometry height="20" width="1012" x="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-11" parent="SwFNO5R2xhA26Hp-94C7-9" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" value="[Edad válida]" vertex="1">
+          <mxGeometry height="4" width="1042" y="103" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-12" parent="1" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30;fillColor=light-dark(#eeeeee,#1f2020);fontColor=light-dark(#333333,#cccccc);" value="if" vertex="1">
+          <mxGeometry height="338" width="1080" x="84" y="599" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-13" parent="SwFNO5R2xhA26Hp-94C7-12" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" value="[Animal NO apto]" vertex="1">
+          <mxGeometry height="20" width="1050" x="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-14" parent="SwFNO5R2xhA26Hp-94C7-12" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" value="[Animal apto para venta]" vertex="1">
+          <mxGeometry height="4" width="1080" y="103" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-15" parent="1" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30;fillColor=light-dark(#eeeeee,#1f2020);fontColor=light-dark(#333333,#cccccc);" value="else" vertex="1">
+          <mxGeometry height="256" width="798" x="84" y="1051" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-16" parent="SwFNO5R2xhA26Hp-94C7-15" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" value="[Rechazada]" vertex="1">
+          <mxGeometry height="20" width="768" x="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-17" parent="SwFNO5R2xhA26Hp-94C7-15" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" value="[Aprobada]" vertex="1">
+          <mxGeometry height="4" width="798" y="103" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-18" parent="1" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30;fillColor=light-dark(#eeeeee,#1f2020);fontColor=light-dark(#333333,#cccccc);" value="opt" vertex="1">
+          <mxGeometry height="232" width="505" x="928" y="1525" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-19" parent="SwFNO5R2xhA26Hp-94C7-18" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" value="[Verificación previa al envío]" vertex="1">
+          <mxGeometry height="20" width="475" x="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-20" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-3" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-7" value="1. Solicitar compra de animal (animalID)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="567" y="127" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-21" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-8" value="2. Obtener datos del animal (animalID)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1231" y="179" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-22" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-8" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-7" value="3. Datos (edad, vacunas, estado, precio, etc.)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1234" y="231" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-23" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="curved=1;endArrow=block;rounded=0;" target="SwFNO5R2xhA26Hp-94C7-7" value="4. Validar edad legal">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1073" y="283" />
+              <mxPoint x="1073" y="313" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-24" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-3" value="5a. Venta rechazada: edad ilegal">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="411" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-25" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="curved=1;endArrow=block;rounded=0;" target="SwFNO5R2xhA26Hp-94C7-7" value="5b. Continuar validaciones">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1073" y="509" />
+              <mxPoint x="1073" y="539" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-26" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-3" value="6b. Venta rechazada: animal no apto">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="677" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-27" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="curved=1;endArrow=block;rounded=0;" target="SwFNO5R2xhA26Hp-94C7-7" value="6a. Validar estado sanitario y vacunas">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1073" y="775" />
+              <mxPoint x="1073" y="805" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-28" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="curved=1;endArrow=block;rounded=0;" target="SwFNO5R2xhA26Hp-94C7-7" value="6c. Animal apto">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1073" y="857" />
+              <mxPoint x="1073" y="887" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-29" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-5" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-6" value="7. Solicitar aprobación de venta">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="657" y="979" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-30" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-6" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-4" value="8. Aprobación / Rechazo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="1031" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-31" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-6" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-3" value="8a. Venta rechazada">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="457" y="1129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-32" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-6" style="curved=1;endArrow=block;rounded=0;" target="SwFNO5R2xhA26Hp-94C7-6" value="8b. Venta aprobada">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="847" y="1227" />
+              <mxPoint x="847" y="1257" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-33" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-6" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-7" value="9. Asignar operario">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="918" y="1349" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-34" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-6" value="10. Operario asignado">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="921" y="1401" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-35" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-5" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-6" value="11. Preparar animal y transporte">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="657" y="1453" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-36" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-6" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-5" value="12. Preparación lista">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="1505" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-37" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="curved=1;endArrow=block;rounded=0;" target="SwFNO5R2xhA26Hp-94C7-7" value="13. Verificar condiciones">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1073" y="1603" />
+              <mxPoint x="1073" y="1633" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-38" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-8" value="14. Registrar preparación">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1231" y="1685" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-39" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-8" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-7" value="15. OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1234" y="1737" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-40" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-8" value="16. Registrar venta (cliente, animal, precio, etc.)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1231" y="1799" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-41" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-8" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-7" value="17. OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1234" y="1851" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-42" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-8" value="18. Registrar envío / entrega">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1231" y="1903" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-43" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-8" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-7" value="19. OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1234" y="1955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-44" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-7" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-4" value="20. Entrega confirmada">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="673" y="2007" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SwFNO5R2xhA26Hp-94C7-45" edge="1" parent="1" source="SwFNO5R2xhA26Hp-94C7-4" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" target="SwFNO5R2xhA26Hp-94C7-3" value="21. Compra exitosa">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="209" y="2059" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
