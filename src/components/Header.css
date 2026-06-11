@@ -1,0 +1,41 @@
+.navbar-header {
+    display: flex;
+    align-items: center;            
+    width: 100%;
+    padding: 15px 40px;             
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    position: absolute;                
+    top: 0;
+    left: 0;
+    font-family: 'Arimo', sans-serif;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-marca {
+    display: flex;
+    align-items: center;
+    gap: 0px;                      
+}
+
+.navbar-logo {
+    height: 100px;                   
+    width: auto;
+    cursor: pointer;
+}
+
+.navbar-titulo {
+    font-size: 50px;
+    font-weight: 400;
+    font-style: italic;             
+    color: #000000;
+    margin: 0;
+    margin-left: 15px; 
+}
+
+.navbar-link {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 400;
+    
+}
