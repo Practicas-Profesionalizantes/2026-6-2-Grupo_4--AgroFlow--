@@ -1,4 +1,4 @@
-package com.agroflow.backend.model;
+package com.agroflow.backend.dto;
 
 public class LoginRequest {
     private String email;

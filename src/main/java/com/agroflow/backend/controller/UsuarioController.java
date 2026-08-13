@@ -44,7 +44,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> iniciarSesion(@RequestBody com.agroflow.backend.model.LoginRequest loginRequest) {
+    public ResponseEntity<?> iniciarSesion(@RequestBody com.agroflow.backend.dto.LoginRequest loginRequest) {
         try {
             Usuario usuarioLogueado = usuarioService.login(loginRequest.getEmail(), loginRequest.getContrasena());
             return ResponseEntity.ok(usuarioLogueado);
@@ -52,5 +52,6 @@ public class UsuarioController {
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }
+
 
 }
