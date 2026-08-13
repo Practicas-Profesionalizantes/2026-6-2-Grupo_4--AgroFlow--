@@ -42,4 +42,15 @@ public class UsuarioController {
         usuarioService.eliminarUsuario(admin, id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> iniciarSesion(@RequestBody com.agroflow.backend.model.LoginRequest loginRequest) {
+        try {
+            Usuario usuarioLogueado = usuarioService.login(loginRequest.getEmail(), loginRequest.getContrasena());
+            return ResponseEntity.ok(usuarioLogueado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
+    }
+
 }
