@@ -1,6 +1,8 @@
+
 .navbar-header {
     display: flex;
-    align-items: center;            
+    align-items: center;  
+    justify-content: space-between; /* Envía el bloque izquierdo a un extremo y los botones al otro */         
     width: 100%;
     padding: 15px 40px;             
     background-color: #FFFFFF;
@@ -9,23 +11,28 @@
     top: 0;
     left: 0;
     font-family: 'Arimo', sans-serif;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+}
+
+
+.navbar-izquierda {
+    display: flex;
+    align-items: center;
 }
 
 .navbar-marca {
     display: flex;
-    align-items: center;
-    gap: 0px;                      
+    align-items: center;                     
 }
 
 .navbar-logo {
-    height: 100px;                   
+    height: 80px;                   
     width: auto;
     cursor: pointer;
 }
 
 .navbar-titulo {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 400;
     font-style: italic;             
     color: #000000;
@@ -33,9 +40,27 @@
     margin-left: 15px; 
 }
 
-.navbar-link {
-    font-size: 20px;
-    color: #000000;
-    font-weight: 400;
-    
+
+.navbar-derecha {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+
+.btn-nav {
+    font-family: 'Arimo', sans-serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #0E4194; 
+    border: none;
+    padding: 8px 28px;
+    border-radius: 13px; 
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-nav:hover {
+    background-color: #002277; 
 }
