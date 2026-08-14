@@ -3,7 +3,6 @@ package com.agroflow.backend.service;
 import com.agroflow.backend.model.Usuario;
 import com.agroflow.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +12,6 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
@@ -29,13 +25,6 @@ public class UsuarioService {
         if (admin == null || !"Administrador".equalsIgnoreCase(admin.getRol())) {
             throw new RuntimeException("Acceso denegado: Solo el Administrador puede gestionar usuarios.");
         }
-        
-        // Encriptamos la contraseña antes de guardar en la base de datos
-        if (usuarioAEditar.getContrasena() != null && !usuarioAEditar.getContrasena().startsWith("$2a$")) {
-            String contrasenaEncriptada = passwordEncoder.encode(usuarioAEditar.getContrasena());
-            usuarioAEditar.setContrasena(contrasenaEncriptada);
-        }
-        
         return usuarioRepository.save(usuarioAEditar);
     }
 
@@ -54,8 +43,7 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Credenciales incorrectas: El email no existe."));
 
-        // BCrypt compara el texto plano directamente contra el hash guardado
-        if (!passwordEncoder.matches(contrasenaPlana, usuario.getContrasena())) {
+        if (!contrasenaPlana.equals(usuario.getContrasena())) {
             throw new RuntimeException("Credenciales incorrectas: Contraseña inválida.");
         }
 
