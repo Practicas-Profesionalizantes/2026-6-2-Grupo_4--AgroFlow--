@@ -1,10 +1,11 @@
 import logoAgro from '../assets/Agroflow logo.png' 
 import Boton from './Boton' 
 import './Header.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom' // Importamos useLocation
 
 function Header() {
     const navigate = useNavigate();
+    const location = useLocation(); // Obtenemos la ruta actual de la aplicación
 
     return (
         <header className="navbar-header">
@@ -20,9 +21,12 @@ function Header() {
             </div>
 
             <div className="navbar-derecha">
-                <div onClick={() => navigate("/login")}>
-                    <Boton texto="sign in" />
-                </div>
+                {/* Condicional inteligente: Solo renderiza el botón si NO estás en la página de login */}
+                {location.pathname !== "/login" && (
+                    <div onClick={() => navigate("/login")}>
+                        <Boton texto="sign in" />
+                    </div>
+                )}
             </div>
         </header>
     )
