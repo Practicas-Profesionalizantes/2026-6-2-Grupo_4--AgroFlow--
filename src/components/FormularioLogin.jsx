@@ -1,6 +1,6 @@
 import './FormularioLogin.css'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate, Link } from 'react-router-dom' // Añadimos Link en las importaciones
 import { loginUsuario } from '../services/usuarioService'
 
 function FormularioLogin() {
@@ -8,7 +8,7 @@ function FormularioLogin() {
   const [contrasena, setContrasena] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
   
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -22,9 +22,7 @@ function FormularioLogin() {
 
     try {
       const usuarioLogueado = await loginUsuario(email, contrasena);
-
       localStorage.setItem('usuario', JSON.stringify(usuarioLogueado));
-
       navigate("/"); 
 
     } catch (err) {
@@ -67,7 +65,7 @@ function FormularioLogin() {
             />
 
             <button type="submit">Sign In</button>
-            <p>Don’t have an account? <a href="#">Create one now</a></p>
+            <p>Don’t have an account? <Link to="/register">Create one now</Link></p>
           </form>
         </div>
       </section>

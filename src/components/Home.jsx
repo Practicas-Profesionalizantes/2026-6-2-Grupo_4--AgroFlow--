@@ -12,8 +12,6 @@ function Home() {
                     AgroFlow tu Servicio <br />
                     de Distribucion y logistica de confianza
                 </h2>
-                {/* Transformamos el botón en un Link interactivo hacia /login */}
-                <Link to="/login" className="btn-hero">sign in</Link>
             </section>
 
             <h3 className="section-title">Features</h3>

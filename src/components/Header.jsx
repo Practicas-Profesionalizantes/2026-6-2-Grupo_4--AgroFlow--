@@ -1,11 +1,13 @@
 import logoAgro from '../assets/Agroflow logo.png' 
 import Boton from './Boton' 
 import './Header.css'
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
+    const navigate = useNavigate();
+
     return (
         <header className="navbar-header">
-            {/* Bloque Izquierdo: Logo y Título */}
             <div className="navbar-izquierda">
                 <div className="navbar-marca">
                     <img
@@ -17,10 +19,10 @@ function Header() {
                 <h1 className="navbar-titulo">AGROFLOW</h1>
             </div>
 
-            {/* Bloque Derecho: Solo tus botones agrupados */}
             <div className="navbar-derecha">
-                <Boton texto="sign in" />
-                <Boton texto="register" />
+                <div onClick={() => navigate("/login")}>
+                    <Boton texto="sign in" />
+                </div>
             </div>
         </header>
     )
