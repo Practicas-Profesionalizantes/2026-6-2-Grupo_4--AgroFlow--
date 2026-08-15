@@ -1,4 +1,4 @@
-    import './FormularioLogin.css'
+    import '../styles/FormularioLogin.css';
     import { useState } from 'react'
     import { useNavigate } from 'react-router-dom'
     import { registrarUsuario } from '../services/usuarioService'
