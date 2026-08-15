@@ -3,7 +3,7 @@
     import { useNavigate } from 'react-router-dom'
     import { registrarUsuario } from '../services/usuarioService'
 
-    function FormRegister() {
+    function Register() {
         const navigate = useNavigate()
         const [nombre, setNombre] = useState("")
         const [apellido, setApellido] = useState("")
@@ -90,4 +90,4 @@
         )
     }
 
-    export default FormRegister
+    export default Register

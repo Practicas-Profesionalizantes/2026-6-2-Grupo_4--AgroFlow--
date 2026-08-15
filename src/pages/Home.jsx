@@ -1,4 +1,4 @@
-import './Home.css';
+import '../styles/Home.css';
 import { Link } from 'react-router-dom'; // Importamos Link para la navegación
 import imgRutas from '../assets/Flechitas.png';
 import imgRoles from '../assets/Roles.png'; 

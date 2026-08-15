@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Home from '../components/Home';
-import FormularioLogin from '../components/FormularioLogin';
-import FormRegister from '../components/FormRegister'; // Importamos el registro
-import Header from '../components/Header';
+import Home from '../pages/Home';
+import FormularioLogin from '../pages/FormularioLogin';
+import FormRegister from '../pages/Register';
+import Header from '../pages/Header'; 
 
 function AppRoutes() {
   return (
@@ -11,7 +11,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<FormularioLogin />} />
-        <Route path="/register" element={<FormRegister />} /> {/* Nueva ruta pública */}
+        <Route path="/register" element={<FormRegister />} />
 
         <Route path="/admin" element={() => <div style={{ padding: '20px' }}><h2>Panel Admin</h2></div>} />
         <Route path="/operario" element={() => <div style={{ padding: '20px' }}><h2>Panel Operario</h2></div>} />

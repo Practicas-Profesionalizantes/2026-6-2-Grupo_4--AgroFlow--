@@ -1,11 +1,11 @@
 import logoAgro from '../assets/Agroflow logo.png' 
-import Boton from './Boton' 
-import './Header.css'
-import { useNavigate, useLocation } from 'react-router-dom' // Importamos useLocation
+import Boton from '../components/Boton' 
+import '../styles/Header.css';
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function Header() {
     const navigate = useNavigate();
-    const location = useLocation(); // Obtenemos la ruta actual de la aplicación
+    const location = useLocation();
 
     return (
         <header className="navbar-header">

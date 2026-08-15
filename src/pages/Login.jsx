@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom' // Añadimos Link en las importaciones
 import { loginUsuario } from '../services/usuarioService'
 
-function FormularioLogin() {
+function Login() {
   const [email, setEmail] = useState("")
   const [contrasena, setContrasena] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
@@ -73,4 +73,4 @@ function FormularioLogin() {
   )
 }
 
-export default FormularioLogin
+export default Login
