@@ -1,94 +1,106 @@
-    import '../styles/FormularioLogin.css';
-    import { useState } from 'react'
-    import { useNavigate } from 'react-router-dom'
-    import { registrarUsuario } from '../services/usuarioService'
+import '../styles/FormularioLogin.css';
+import { LOCALIDADES_ARGENTINA } from '../services/localidades';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { registrarUsuario } from '../services/usuarioService'
 
-    function Register() {
-        const navigate = useNavigate()
-        const [nombre, setNombre] = useState("")
-        const [apellido, setApellido] = useState("")
-        const [email, setEmail] = useState("")
-        const [contrasena, setContrasena] = useState("")
-        const [direccion, setDireccion] = useState("")
-        const [localidad, setLocalidad] = useState("")
-        const [fechaNacimiento, setFechaNacimiento] = useState("")
-        const [telefono, setTelefono] = useState("")
-        const [errorMsg, setErrorMsg] = useState("")
+function Register() {
+    const navigate = useNavigate()
+    const [nombre, setNombre] = useState("")
+    const [apellido, setApellido] = useState("")
+    const [email, setEmail] = useState("")
+    const [contrasena, setContrasena] = useState("")
+    const [direccion, setDireccion] = useState("")
+    const [localidad, setLocalidad] = useState("")
+    const [fechaNacimiento, setFechaNacimiento] = useState("")
+    const [telefono, setTelefono] = useState("")
+    const [errorMsg, setErrorMsg] = useState("")
 
-        const handleSubmit = async (e) => {
-            e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault()
 
-            if (!nombre || !apellido || !email || !contrasena || !direccion || !localidad || !fechaNacimiento || !telefono) {
-                setErrorMsg("Todos los campos del formulario son obligatorios")
-                return
-            }
-
-            setErrorMsg("")
-
-            const nuevoUsuario = {
-                nombre: nombre,
-                apellido: apellido,
-                email: email,
-                contrasena: contrasena,
-                direccion: direccion,
-                localidad: localidad,
-                fechaNacimiento: fechaNacimiento,
-                telefono: telefono,
-                dni: null,  
-                cuit: null, 
-                rol: "Cliente"
-            }
-
-            try {
-                await registrarUsuario(nuevoUsuario, 1);
-                navigate("/login");
-            } catch (err) {
-                setErrorMsg("Error al registrar la cuenta. Inténtelo de nuevo.");
-            }
+        if (!nombre || !apellido || !email || !contrasena || !direccion || !localidad || !fechaNacimiento || !telefono) {
+            setErrorMsg("Todos los campos del formulario son obligatorios")
+            return
         }
 
-        return (
-            <>
-                <section>
-                    <h2 style={{ fontSize: '42px', textAlign: 'center', marginTop: '20px' }} >Create Account</h2>
-                    <div className='formulario'>
-                        {errorMsg && <p className="error-mensaje">{errorMsg}</p>}
-                        <form onSubmit={handleSubmit}>
-                            <div className='row-inputs'>
-                                <div className='input-group'>
-                                    <label htmlFor="firstName">First Name</label>
-                                    <input type="text" value={nombre} onChange={e => setNombre(e.target.value)} placeholder='Benjamin' required />
-                                </div>
-                                <div className='input-group'>
-                                    <label htmlFor="lastName">Last Name</label>
-                                    <input type="text" value={apellido} onChange={e => setApellido(e.target.value)} placeholder='Korstanje' required />
-                                </div>
-                            </div>
+        setErrorMsg("")
 
-                            <label htmlFor="email">Email</label>
-                            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder='you@company.com' required />
+        const nuevoUsuario = {
+            nombre: nombre,
+            apellido: apellido,
+            email: email,
+            contrasena: contrasena,
+            direccion: direccion,
+            localidad: localidad,
+            fechaNacimiento: fechaNacimiento,
+            telefono: telefono,
+            dni: null,
+            cuit: null,
+            rol: "Cliente"
+        }
 
-                            <label htmlFor="password">Password</label>
-                            <input type="password" value={contrasena} onChange={e => setContrasena(e.target.value)} placeholder='•••••••••' required />
-
-                            <label htmlFor="address">Address</label>
-                            <input type="text" value={direccion} onChange={e => setDireccion(e.target.value)} placeholder='Calle Falsa 123' />
-
-                            <label htmlFor="locality">Locality</label>
-                            <input type="text" value={localidad} onChange={e => setLocalidad(e.target.value)} placeholder='Buenos Aires' />
-
-                            <label htmlFor="birthday">Birthday</label>
-                            <input type="date" value={fechaNacimiento} onChange={e => setFechaNacimiento(e.target.value)} />
-
-                            <label htmlFor="phone">Phone</label>
-                            <input type="text" value={telefono} onChange={e => setTelefono(e.target.value)} placeholder='11 61608813' />
-
-                            <button type="submit">Create Account</button>
-                        </form>
-                    </div>
-                </section>
-            </>
-        )
+        try {
+            await registrarUsuario(nuevoUsuario, 1);
+            navigate("/login");
+        } catch (err) {
+            setErrorMsg("Error al registrar la cuenta. Inténtelo de nuevo.");
+        }
     }
 
-    export default Register
+    return (
+        <>
+            <section>
+                <h2 style={{ fontSize: '42px', textAlign: 'center', marginTop: '20px' }} >Create Account</h2>
+                <div className='formulario'>
+                    {errorMsg && <p className="error-mensaje">{errorMsg}</p>}
+                    <form onSubmit={handleSubmit}>
+                        <div className='row-inputs'>
+                            <div className='input-group'>
+                                <label htmlFor="firstName">First Name</label>
+                                <input type="text" value={nombre} onChange={e => setNombre(e.target.value)} placeholder='You Name' required />
+                            </div>
+                            <div className='input-group'>
+                                <label htmlFor="lastName">Last Name</label>
+                                <input type="text" value={apellido} onChange={e => setApellido(e.target.value)} placeholder='You Last Name' required />
+                            </div>
+                        </div>
+
+                        <label htmlFor="email">Email</label>
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder='you@company.com' required />
+
+                        <label htmlFor="password">Password</label>
+                        <input type="password" value={contrasena} onChange={e => setContrasena(e.target.value)} placeholder='•••••••••' required />
+
+                        <label htmlFor="address">Address</label>
+                        <input type="text" value={direccion} onChange={e => setDireccion(e.target.value)} placeholder='Calle Falsa 123' />
+
+                        <label htmlFor="locality">Locality</label>
+                        <input
+                            type="text"
+                            value={localidad}
+                            onChange={e => setLocalidad(e.target.value)}
+                            placeholder='Palermo, Villa Urquiza, Rosario...'
+                            list="lista-localidades-predictiva"
+                        />
+                        <label htmlFor="birthday">Birthday</label>
+                        <input type="date" value={fechaNacimiento} onChange={e => setFechaNacimiento(e.target.value)} />
+
+                        <label htmlFor="phone">Phone</label>
+                        <input type="text" value={telefono} onChange={e => setTelefono(e.target.value)} placeholder='11 61608813' />
+
+                        <datalist id="lista-localidades-predictiva">
+                            {LOCALIDADES_ARGENTINA.map((loc, index) => (
+                                <option key={index} value={loc} />
+                            ))}
+                        </datalist>
+
+                        <button type="submit">Create Account</button>
+                    </form>
+                </div>
+            </section>
+        </>
+    )
+}
+
+export default Register
