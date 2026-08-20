@@ -21,8 +21,8 @@ function Header() {
             </div>
 
             <div className="navbar-derecha">
-                {/* Condicional inteligente: Solo renderiza el botón si NO estás en la página de login */}
-                {location.pathname !== "/login" && (
+                
+                {(location.pathname === "/register" || location.pathname === "/") && (
                     <div onClick={() => navigate("/login")}>
                         <Boton texto="sign in" />
                     </div>

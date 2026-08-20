@@ -18,28 +18,29 @@
         const handleSubmit = async (e) => {
             e.preventDefault()
 
-            if (!nombre || !apellido || !email || !contrasena) {
-                setErrorMsg("Los campos principales son obligatorios")
+            if (!nombre || !apellido || !email || !contrasena || !direccion || !localidad || !fechaNacimiento || !telefono) {
+                setErrorMsg("Todos los campos del formulario son obligatorios")
                 return
             }
 
             setErrorMsg("")
 
             const nuevoUsuario = {
-                nombre,
-                apellido,
-                email,
-                contrasena,
-                direccion,
-                localidad,
-                fechaNacimiento,
-                telefono,
+                nombre: nombre,
+                apellido: apellido,
+                email: email,
+                contrasena: contrasena,
+                direccion: direccion,
+                localidad: localidad,
+                fechaNacimiento: fechaNacimiento,
+                telefono: telefono,
+                dni: null,  
+                cuit: null, 
                 rol: "Cliente"
             }
 
             try {
                 await registrarUsuario(nuevoUsuario, 1);
-                alert("¡Cuenta creada con éxito! Ya puedes iniciar sesión.");
                 navigate("/login");
             } catch (err) {
                 setErrorMsg("Error al registrar la cuenta. Inténtelo de nuevo.");

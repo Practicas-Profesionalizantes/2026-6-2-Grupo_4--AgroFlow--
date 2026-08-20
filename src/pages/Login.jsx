@@ -23,7 +23,18 @@ function Login() {
     try {
       const usuarioLogueado = await loginUsuario(email, contrasena);
       localStorage.setItem('usuario', JSON.stringify(usuarioLogueado));
-      navigate("/"); 
+
+      if (usuarioLogueado.rol === "Administrador") {
+        navigate("/admin");
+      } else if (usuarioLogueado.rol === "Operario") {
+        navigate("/operario");
+      } else if (usuarioLogueado.rol === "Supervisor") {
+        navigate("/supervisor");
+      } else if (usuarioLogueado.rol === "Cliente") {
+        navigate("/cliente");
+      } else {
+        navigate("/");
+      }
 
     } catch (err) {
       if (err.response && err.response.status === 401) {
