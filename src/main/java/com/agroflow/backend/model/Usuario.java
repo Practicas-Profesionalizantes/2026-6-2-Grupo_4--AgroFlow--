@@ -36,6 +36,7 @@ public class Usuario {
     private String localidad;
 
     @Column(name = "fecha_nacimiento")
+    @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 
     @Column(unique = true, length = 20)
