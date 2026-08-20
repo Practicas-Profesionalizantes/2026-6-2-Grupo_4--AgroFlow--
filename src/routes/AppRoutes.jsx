@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
-import FormularioLogin from '../pages/FormularioLogin';
-import FormRegister from '../pages/Register';
-import Header from '../pages/Header'; 
+import Login from '../pages/Login'; 
+import Register from '../pages/Register';
+import Header from '../components/Header'; 
 
 function AppRoutes() {
   return (
@@ -10,8 +10,8 @@ function AppRoutes() {
       <Header /> 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<FormularioLogin />} />
-        <Route path="/register" element={<FormRegister />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route path="/admin" element={() => <div style={{ padding: '20px' }}><h2>Panel Admin</h2></div>} />
         <Route path="/operario" element={() => <div style={{ padding: '20px' }}><h2>Panel Operario</h2></div>} />

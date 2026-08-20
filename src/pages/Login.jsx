@@ -1,6 +1,6 @@
 import '../styles/FormularioLogin.css';
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom' // Añadimos Link en las importaciones
+import { useNavigate, Link } from 'react-router-dom'
 import { loginUsuario } from '../services/usuarioService'
 
 function Login() {
