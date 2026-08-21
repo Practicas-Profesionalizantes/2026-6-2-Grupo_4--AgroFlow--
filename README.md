@@ -2,8 +2,8 @@
 
 ![image alt](https://github.com/Ramiro4232/Proyecto-Tecnolog-a/blob/b513042e8a1c32a479d92ec7ca62b452f0093f4b/Logo%20Skyline.png)
 ## 👥 Team Members
-- **Benjamín Ibañez** – Project Owner  
-- **Ramiro Averbuj** – Scrum Master 
+- **Benjamín Ibañez** – Scrum Master  Project Owner
+- **Ramiro Averbuj** – Development Team
 - **Ignacio Álvarez** – Development Team
 - **Santiago Adrián Mamani** – Development Team  
 - **Tomas Fleitas** – Development Team  
