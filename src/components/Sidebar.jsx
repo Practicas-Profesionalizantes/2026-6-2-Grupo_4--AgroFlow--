@@ -1,45 +1,33 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Menu, Settings, LogOut } from 'lucide-react';
+import { logoutUsuario } from "../services/usuarioService";
 import logoAgro from '../assets/Agroflow logo.png';
 import '../styles/Sidebar.css';
 
-function Sidebar() {
+function Sidebar({ opcionesMenu = [] }) {
     const location = useLocation();
     const navigate = useNavigate();
     const [colapsado, setColapsado] = useState(true);
 
-    const opcionesMenu = [
-        { texto: "Home", ruta: "/dashboard", icono: <span style={{ fontSize: '24px', fontWeight: 'bold', lineHeight: '1' }}>⌂</span> },
-        { texto: "medical history", ruta: "/historial-medico", icono: "📋" },
-        { texto: "Inventory", ruta: "/inventario", icono: "🏬" },
-        { texto: "Distribution", ruta: "/distribucion", icono: "🚚" },
-        { texto: "orders", ruta: "/ordenes", icono: "🗑️" }
-    ];
-
-
-    
     const manejarMouseEnter = () => {
-        if (window.innerWidth > 768) {
-            setColapsado(false);
-        }
+        if (window.innerWidth > 768) setColapsado(false);
     };
 
     const manejarMouseLeave = () => {
-        if (window.innerWidth > 768) {
-            setColapsado(true);
-        }
+        if (window.innerWidth > 768) setColapsado(true);
     };
 
     const cerrarSesion = () => {
-        localStorage.clear();
-        navigate("/login");
+        logoutUsuario(); 
+        navigate("/", { replace: true }); 
     };
 
     return (
         <>
             {colapsado && (
                 <button className="btn-toggle-sidebar" onClick={() => setColapsado(false)}>
-                    <span style={{ fontSize: '24px', fontWeight: 'bold', lineHeight: '1' }}>&#9776;</span>
+                    <Menu size={24} />
                 </button>
             )}
 
@@ -83,13 +71,13 @@ function Sidebar() {
                             if (window.innerWidth <= 768) setColapsado(true);
                         }}
                     >
-                        <span className="item-icono">⚙️</span>
+                        <span className="item-icono"><Settings size={20} /></span>
                         <span className="item-texto">Settings</span>
                     </div>
                     
-                    <div className="sidebar-item" onClick={cerrarSesion} style={{ color: '#E53E3E' }}>
-                        <span className="item-icono">🚪</span>
-                        <span className="item-texto">sing out</span>
+                    <div className="sidebar-item" onClick={cerrarSesion} style={{ color: '#E53E3E', cursor: 'pointer' }}>
+                        <span className="item-icono"><LogOut size={20} /></span>
+                        <span className="item-texto">Sign out</span>
                     </div>
                 </div>
             </aside>
