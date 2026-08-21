@@ -53,5 +53,28 @@ public class UsuarioController {
         }
     }
 
+    // --- ENDPOINTS DE RECUPERACIÓN DE CONTRASEÑA ---
 
+    @PostMapping("/solicitar-codigo")
+    public ResponseEntity<?> solicitarCodigo(@RequestParam String email) {
+        try {
+            usuarioService.enviarCodigoRecuperacion(email);
+            return ResponseEntity.ok("Código enviado a tu correo electrónico.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/confirmar-recuperacion")
+    public ResponseEntity<?> confirmarRecuperacion(
+            @RequestParam String email,
+            @RequestParam String codigo,
+            @RequestParam String nuevaContrasena) {
+        try {
+            usuarioService.cambiarContrasenaConCodigo(email, codigo, nuevaContrasena);
+            return ResponseEntity.ok("Contraseña restablecida con éxito.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
