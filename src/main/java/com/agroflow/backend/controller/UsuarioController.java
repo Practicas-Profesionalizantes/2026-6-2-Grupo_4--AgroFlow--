@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -53,26 +54,15 @@ public class UsuarioController {
         }
     }
 
-    // --- ENDPOINTS DE RECUPERACIÓN DE CONTRASEÑA ---
+    // --- RESTABLECER CONTRASEÑA DIRECTO ---
 
-    @PostMapping("/solicitar-codigo")
-    public ResponseEntity<?> solicitarCodigo(@RequestParam String email) {
+    @PostMapping("/restablecer-password")
+    public ResponseEntity<?> restablecerPasswordDirecto(@RequestBody Map<String, String> request) {
         try {
-            usuarioService.enviarCodigoRecuperacion(email);
-            return ResponseEntity.ok("Código enviado a tu correo electrónico.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PostMapping("/confirmar-recuperacion")
-    public ResponseEntity<?> confirmarRecuperacion(
-            @RequestParam String email,
-            @RequestParam String codigo,
-            @RequestParam String nuevaContrasena) {
-        try {
-            usuarioService.cambiarContrasenaConCodigo(email, codigo, nuevaContrasena);
-            return ResponseEntity.ok("Contraseña restablecida con éxito.");
+            String email = request.get("email");
+            String nuevaContrasena = request.get("nuevaContrasena");
+            usuarioService.cambiarContrasenaDirecto(email, nuevaContrasena);
+            return ResponseEntity.ok("Contraseña actualizada con éxito.");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
