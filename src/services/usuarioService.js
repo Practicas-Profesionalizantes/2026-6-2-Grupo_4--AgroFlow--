@@ -20,16 +20,10 @@ export const logoutUsuario = () => {
   localStorage.clear(); 
 };
 
-export const solicitarCodigoRecuperacion = async (email) => {
-  const response = await axios.post(`${API_URL}/solicitar-codigo`, null, {
-    params: { email }
-  });
-  return response.data;
-};
-
-export const confirmarRecuperacion = async (email, codigo, nuevaContrasena) => {
-  const response = await axios.post(`${API_URL}/confirmar-recuperacion`, null, {
-    params: { email, codigo, nuevaContrasena }
+export const cambiarContrasenaDirecto = async (email, nuevaContrasena) => {
+  const response = await axios.post(`${API_URL}/restablecer-password`, {
+    email,
+    nuevaContrasena
   });
   return response.data;
 };
