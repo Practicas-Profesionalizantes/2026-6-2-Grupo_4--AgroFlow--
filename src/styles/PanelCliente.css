@@ -1,0 +1,789 @@
+/* RESET GLOBAL Y REGLAS BASE */
+#agroflow-root, 
+#agroflow-root *, 
+main, aside, div, p, span, h2, h3, h4, input {
+  font-style: italic !important;
+  box-sizing: border-box;
+}
+
+.panel-container {
+  display: flex;
+  height: calc(100vh - 70px); 
+  width: 100vw;
+  background-color: #F8FAFC; 
+  color: #0F172A;
+  font-family: 'Arimo', sans-serif;
+  overflow: hidden;
+}
+
+.panel-root {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* BARRA LATERAL FIJA */
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  background: linear-gradient(180deg, #0E4194 0%, #0A2E66 100%);
+  color: #FFFFFF;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  flex-shrink: 0;
+  box-shadow: 4px 0 24px rgba(14, 65, 148, 0.15);
+}
+
+.sidebar-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: 1.5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 16px;
+  margin-top: 0;
+}
+
+.menu-item {
+  padding: 14px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  transform: translateX(4px);
+}
+
+.menu-item.active {
+  background-color: #FFFFFF;
+  color: #0E4194;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* CONTENIDO PRINCIPAL */
+.main-content {
+  flex: 1;
+  padding: 32px;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.grid-cuenta {
+  display: grid;
+  grid-template-columns: 300px 750px; 
+  gap: 32px;
+  align-items: start;
+  margin: 0 auto;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.flex-column-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.columna-izquierda-simetrica {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 300px;
+}
+
+.card-perfil {
+  background-color: #FFFFFF;
+  padding: 32px 20px;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(148, 163, 184, 0.08);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+  border: 4px solid #EFF6FF;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.badge-member {
+  background-color: #EFF6FF;
+  color: #0E4194;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 9999px;
+  display: inline-block;
+  margin-top: 6px;
+  border: 1px solid rgba(14, 65, 148, 0.1);
+}
+
+.info-contacto {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #475569;
+  text-align: left;
+  line-height: 1.8;
+  border-top: 1px solid #F1F5F9;
+  padding-top: 16px;
+}
+
+.card-chats {
+  background-color: #FFFFFF;
+  padding: 24px 20px;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px rgba(148, 163, 184, 0.08);
+  width: 100%;
+}
+
+.card-chats h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+
+.botones-chats-column {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-chat-acceso {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #0F172A !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-chat-acceso:hover {
+  background-color: #EFF6FF;
+  border-color: #0E4194;
+  transform: translateY(-2px);
+}
+
+.grid-resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.box-monto {
+  padding: 24px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: transform 0.3s ease;
+}
+
+.box-monto:hover {
+  transform: translateY(-4px);
+}
+
+.box-blue { 
+  background: linear-gradient(135deg, #0E4194 0%, #1D4ED8 100%) !important; 
+  color: #FFFFFF !important;
+}
+.box-blue p, .box-blue h2 { color: #FFFFFF !important; margin: 0; }
+
+.box-gray { 
+  background-color: #FFFFFF !important; 
+  color: #0E4194 !important;
+  border: 2px solid #0E4194;
+}
+.box-gray p, .box-gray h2 { color: #0E4194 !important; margin: 0; }
+
+.box-dark-blue { 
+  background: linear-gradient(135deg, #0A2E66 0%, #0E4194 100%) !important; 
+  color: #FFFFFF !important;
+}
+.box-dark-blue p, .box-dark-blue h2 { color: #FFFFFF !important; margin: 0; }
+
+.card-movimientos {
+  background-color: #FFFFFF;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px rgba(148, 163, 184, 0.05);
+}
+
+.movimiento-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 14px;
+}
+
+.movimiento-row:last-child {
+  border-bottom: none;
+}
+
+/* CHAT CONTAINER */
+.chat-window {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(148, 163, 184, 0.08);
+  overflow: hidden;
+}
+
+.contenedor-botones-foto {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+.btn-cambiar-foto,
+.btn-eliminar-foto {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 55px;
+  padding: 6px;
+  box-sizing: border-box;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.btn-cambiar-foto {
+  background-color: #EFF6FF;
+  border: 1px solid #0E4194;
+  color: #0E4194 !important;
+}
+
+.btn-cambiar-foto:hover {
+  background-color: #DBEAFE;
+}
+
+.btn-eliminar-foto {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626 !important;
+}
+
+.btn-eliminar-foto:hover {
+  background-color: #FEE2E2;
+  border-color: #EF4444;
+}
+
+/* ====================================================
+   ESTILOS DE MENSAJES (HORIZONTAL Y FLUIDO)
+   ==================================================== */
+
+.msg-sent {
+  align-self: flex-end !important;
+  background-color: #0E4194 !important;
+  color: #ffffff !important;
+  padding: 12px 18px !important;
+  border-radius: 16px 16px 2px 16px !important;
+  max-width: 75% !important;
+  width: max-content !important;
+  min-width: 100px !important;
+  margin-left: auto !important;
+  margin-bottom: 12px !important;
+  display: block !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+}
+
+.msg-received {
+  align-self: flex-start !important;
+  background-color: #F1F5F9 !important;
+  color: #1E293B !important;
+  padding: 12px 18px !important;
+  border-radius: 16px 16px 16px 2px !important;
+  max-width: 75% !important;
+  width: max-content !important;
+  min-width: 100px !important;
+  margin-right: auto !important;
+  margin-bottom: 12px !important;
+  display: block !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+}
+
+.contenido-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  white-space: nowrap !important;
+  writing-mode: horizontal-tb !important;
+}
+
+.contenido-mensaje span,
+.contenido-mensaje p,
+.contenido-mensaje div {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  writing-mode: horizontal-tb !important;
+  white-space: nowrap !important;
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.btn-editar-msg {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  opacity: 0.8 !important;
+  padding: 2px 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  margin-left: 8px !important;
+}
+
+.btn-editar-msg:hover {
+  opacity: 1 !important;
+  transform: scale(1.15) !important;
+}
+
+.contenedor-editar-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.input-editar-mensaje {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  font-size: 13px !important;
+  outline: none !important;
+  flex: 1 !important;
+}
+
+.msg-received .input-editar-mensaje {
+  border: 1px solid #CBD5E1 !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.botones-editar-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 4px !important;
+  flex-shrink: 0 !important;
+}
+
+.btn-guardar-edit,
+.btn-cancelar-edit {
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+}
+
+.btn-guardar-edit {
+  background-color: #22C55E !important;
+  color: #ffffff !important;
+}
+
+.btn-cancelar-edit {
+  background-color: #EF4444 !important;
+  color: #ffffff !important;
+}
+
+/* ====================================================
+   FIX DEFINITIVO DEL BARRA DE INGRESO DE TEXTO Y ENVIAR
+   ==================================================== */
+
+/* El contenedor de abajo del chat (form o div) */
+.chat-window form,
+.chat-window > div:last-child {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 16px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background-color: #FFFFFF !important;
+  border-top: 1px solid #E2E8F0 !important;
+}
+
+/* El Input para escribir el mensaje */
+.chat-window input[type="text"],
+.chat-input {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 46px !important;
+  padding: 10px 16px !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+/* El botón Enviar (Acomodado a la derecha, tamaño normal) */
+.chat-window button[type="submit"],
+.btn-solid {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 110px !important;
+  height: 46px !important;
+  padding: 0 22px !important;
+  background-color: #0E4194 !important;
+  color: #FFFFFF !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.chat-window button[type="submit"]:hover,
+.btn-solid:hover {
+  background-color: #1D4ED8 !important;
+}
+
+/* ====================================================
+   MODO EDICIÓN MODERNO (TIPO WHATSAPP ACTUAL)
+   ==================================================== */
+
+/* Contenedor de edición fluido */
+.contenedor-editar-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.12) !important; /* Fondo sutil translúcido */
+  border-radius: 12px !important;
+  padding: 4px 6px 4px 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+
+/* En mensajes recibidos (fondo claro) */
+.msg-received .contenedor-editar-mensaje {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* El input transparente e integrado */
+.input-editar-mensaje {
+  border: none !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+  font-style: italic !important;
+  outline: none !important;
+  flex: 1 !important;
+  padding: 4px 0 !important;
+  width: 100% !important;
+  font-family: inherit !important;
+}
+
+.msg-received .input-editar-mensaje {
+  color: #0F172A !important;
+}
+
+/* Botones de acción minimalistas */
+.botones-editar-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 4px !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* Botón Guardar (✓) */
+.btn-guardar-edit {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-guardar-edit:hover {
+  background-color: #22C55E !important; /* Se pone verde suave al hover */
+  transform: scale(1.08) !important;
+}
+
+/* Botón Cancelar (✕) */
+.btn-cancelar-edit {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: none !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 13px !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-cancelar-edit:hover {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #EF4444 !important;
+  transform: scale(1.08) !important;
+}
+
+/* Ajustes para mensajes recibidos */
+.msg-received .btn-guardar-edit {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
+.msg-received .btn-cancelar-edit {
+  color: #64748B !important;
+}
+
+/* ====================================================
+   AMPLIAR MODO EDICIÓN A LO ANCHO Y QUITAR DOBLE MARCO
+   ==================================================== */
+
+/* Hacemos que la burbuja en edición sea más ancha (mínimo 380px o 85%) */
+.msg-sent:has(.contenedor-editar-mensaje),
+.msg-received:has(.contenedor-editar-mensaje) {
+  width: 85% !important;
+  min-width: 320px !important;
+  max-width: 85% !important;
+}
+
+/* El contenedor principal de edición ocupa todo el ancho de la burbuja */
+.contenedor-editar-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  background: transparent !important; /* Sacamos el borde doble */
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* El campo donde escribís se estira todo lo posible y sin fondo blanco raro */
+.input-editar-mensaje {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  background: rgba(255, 255, 255, 0.2) !important; /* Fondo suave transparente integrativo */
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 10px !important;
+  color: #FFFFFF !important;
+  padding: 8px 14px !important;
+  font-size: 14px !important;
+  font-style: italic !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+/* En mensajes recibidos (fondo claro) */
+.msg-received .input-editar-mensaje {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+/* Foco al escribir */
+.input-editar-mensaje:focus {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-color: #FFFFFF !important;
+}
+
+/* Botones de confirmar/cancelar fijos a la derecha */
+.botones-editar-mensaje {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 6px !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* ====================================================
+   ELIMINAR SCROLLBAR HORIZONTAL Y ARREGLAR CONTENEDORES
+   ==================================================== */
+
+/* 1. Prohibir el scroll horizontal en toda la app y en el chat */
+html, body, #agroflow-root, .panel-container, .main-content, .chat-window {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+/* 2. Quitar el scrollbar feo de los mensajes del chat */
+.chat-window > div,
+.chat-messages,
+.contenedor-mensajes {
+  overflow-x: hidden !important; /* Desaparece la barra horizontal de una */
+}
+
+/* 3. Opcional: Ocultar visualmente la barra de scroll pero permitiendo scrollear arriba/abajo */
+.chat-window > div::-webkit-scrollbar,
+.main-content::-webkit-scrollbar {
+  width: 6px !important;
+  height: 0px !important; /* Oculta scrollbar horizontal si el navegador intenta dibujarla */
+}
+
+.chat-window > div::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb {
+  background: #CBD5E1 !important;
+  border-radius: 10px !important;
+}
+
+/* ==========================================
+   🌙 MODO OSCURO MEJORADO (Azul Noche & Blanco)
+   ========================================== */
+
+/* Fondo general de la aplicación */
+.panel-container.dark-mode {
+  background-color: #0B132B !important;
+  color: #FFFFFF !important;
+}
+
+/* Tarjetas y Contenedores principales */
+.panel-container.dark-mode .card-perfil,
+.panel-container.dark-mode .card-chats,
+.panel-container.dark-mode .card-movimientos,
+.panel-container.dark-mode .chat-window,
+.panel-container.dark-mode div[style*="backgroundColor: '#FFFFFF'"],
+.panel-container.dark-mode div[style*="background-color: '#FFFFFF'"],
+.panel-container.dark-mode div[style*="backgroundColor: '#ffffff'"] {
+  background-color: #1C2541 !important;
+  border: 1px solid #3A506B !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Encabezados y Títulos principales (Blanco puro para que se lean bien) */
+.panel-container.dark-mode h1,
+.panel-container.dark-mode h2,
+.panel-container.dark-mode h3,
+.panel-container.dark-mode h4,
+.panel-container.dark-mode strong,
+.panel-container.dark-mode label {
+  color: #FFFFFF !important;
+}
+
+/* Textos secundarios y bajadas */
+.panel-container.dark-mode .text-muted,
+.panel-container.dark-mode span[style*="color: '#64748B'"],
+.panel-container.dark-mode span[style*="color: #64748B"] {
+  color: #A3B18A !important; /* Si preferís tono neutro cambiá por #CBD5E1 */
+  color: #CBD5E1 !important;
+}
+
+/* Campos de Texto (Inputs) */
+.panel-container.dark-mode input[type="text"],
+.panel-container.dark-mode input[type="email"],
+.panel-container.dark-mode input[type="password"] {
+  background-color: #0B132B !important;
+  color: #FFFFFF !important;
+  border: 1px solid #3A506B !important;
+}
+
+.panel-container.dark-mode input::placeholder {
+  color: #64748B !important;
+}
+
+/* Botones Principales en Modo Oscuro */
+.panel-container.dark-mode button[style*="backgroundColor: '#0E4194'"],
+.panel-container.dark-mode button[type="submit"] {
+  background-color: #1D4ED8 !important; /* Azul más brillante para contraste */
+  color: #FFFFFF !important;
+}
+
+/* Líneas divisorias de secciones */
+.panel-container.dark-mode div[style*="borderBottom"] {
+  border-bottom-color: #3A506B !important;
+}
+
+/* Fuerza a que el contenido del mensaje vaya de arriba a abajo */
+.msg-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Controla que la imagen no rompa el ancho y se adapte */
+.msg-image {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ajuste opcional para el texto */
+.msg-text {
+  word-break: break-word;
+  font-size: 14px;
+}

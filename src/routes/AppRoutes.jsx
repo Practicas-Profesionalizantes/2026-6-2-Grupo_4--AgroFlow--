@@ -4,22 +4,20 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import PanelCliente from '../pages/PanelCliente';
 
 import { 
   Home as HomeIcon, 
   Boxes, 
   ShoppingCart, 
   ClipboardList, 
-  Truck, 
-  Settings, 
-  LogOut, 
-  Menu 
+  Truck 
 } from 'lucide-react';
 
 const menuAdmin = [
-  { texto: "Home", ruta: "/admin", icono: <HomeIcon size={20} /> },
-  { texto: "Inventory", ruta: "/inventario", icono: <Boxes size={20} /> },
-  { texto: "Orders", ruta: "/ordenes", icono: <ShoppingCart size={20} /> }
+  { texto: "Home", ruta: "/admin/home", icono: <HomeIcon size={20} /> },
+  { texto: "Inventory", ruta: "/admin/inventario", icono: <Boxes size={20} /> },
+  { texto: "Orders", ruta: "/admin/ordenes", icono: <ShoppingCart size={20} /> }
 ];
 
 const menuOperario = [
@@ -34,7 +32,8 @@ const menuSupervisor = [
 ];
 
 const menuCliente = [
-  { texto: "Home", ruta: "/cliente", icono: <HomeIcon size={20} /> },
+  { texto: "Home", ruta: "/cliente/home", icono: <HomeIcon size={20} /> },
+  { texto: "Panel de control", ruta: "/cliente", icono: <Boxes size={20} /> },
   { texto: "Orders", ruta: "/ordenes", icono: <ShoppingCart size={20} /> }
 ];
 
@@ -88,7 +87,7 @@ function AppRoutes() {
         } />
         
         <Route path="/operario" element={
-          <RutaProtegida rolPermitido="Operario" opcionesMenu={menuOperario}>
+          <RutaProtegida rolProtegida rolPermitido="Operario" opcionesMenu={menuOperario}>
             <h2>Panel de Operario (Registros)</h2>
           </RutaProtegida>
         } />
@@ -99,9 +98,9 @@ function AppRoutes() {
           </RutaProtegida>
         } />
         
-        <Route path="/cliente" element={
+        <Route path="/cliente/*" element={
           <RutaProtegida rolPermitido="Cliente" opcionesMenu={menuCliente}>
-            <h2>Portal del Cliente (Ganado)</h2>
+            <PanelCliente />
           </RutaProtegida>
         } />
 
