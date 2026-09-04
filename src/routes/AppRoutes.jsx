@@ -5,6 +5,7 @@ import Register from '../pages/Register';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import PanelCliente from '../pages/PanelCliente';
+import PanelAdmin from '../pages/PanelAdmin'; // <-- Importación agregada
 
 import { 
   Home as HomeIcon, 
@@ -80,14 +81,15 @@ function AppRoutes() {
           <Route path="/register" element={<Register />} />
         </Route>
 
+        {/* Panel de Admin actualizado */}
         <Route path="/admin" element={
           <RutaProtegida rolPermitido="Administrador" opcionesMenu={menuAdmin}>
-            <h2>Panel de Administrador (CRM)</h2>
+            <PanelAdmin />
           </RutaProtegida>
         } />
         
         <Route path="/operario" element={
-          <RutaProtegida rolProtegida rolPermitido="Operario" opcionesMenu={menuOperario}>
+          <RutaProtegida rolPermitido="Operario" opcionesMenu={menuOperario}>
             <h2>Panel de Operario (Registros)</h2>
           </RutaProtegida>
         } />
