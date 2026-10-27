@@ -1,8 +1,8 @@
-import '../styles/FormularioLogin.css';
-import { LOCALIDADES_ARGENTINA } from '../services/localidades';
+import '../../styles/FormularioLogin.css';
+import { LOCALIDADES_ARGENTINA } from '../../services/localidades';
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { registrarUsuario } from '../services/usuarioService'
+import { registrarUsuario } from '../../services/usuarioService'
 
 function Register() {
     const navigate = useNavigate()

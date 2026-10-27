@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+.inv-container {
+  background-color: #F4F6F8;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  color: #191c1e;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+}
+
+.inv-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 1.5rem;
+}
+
+.inv-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.inv-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.inv-subtitle {
+  font-size: 14px;
+  color: #888888;
+  margin: 0;
+}
+
+/* Pestañas */
+.inv-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.inv-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #434652;
+  border: 1.5px solid #e2e8f0;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.inv-tab-btn:hover {
+  border-color: #0E4194;
+  color: #0E4194;
+}
+
+.inv-tab-btn.active {
+  background-color: #0E4194;
+  color: #ffffff;
+  border-color: #0E4194;
+  box-shadow: 0 4px 6px rgba(14, 65, 148, 0.15);
+}
+
+.inv-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 30px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.inv-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inv-table-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .inv-table-header {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.inv-card-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.inv-badge-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0E4194;
+  background-color: #d9e2ff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.inv-table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.inv-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.inv-table th {
+  padding: 0.75rem 1rem;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #f2f4f6;
+  color: #747783;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.inv-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s;
+}
+
+.inv-table tbody tr:hover {
+  background-color: rgba(242, 244, 246, 0.5);
+}
+
+.inv-table td {
+  padding: 1rem;
+  font-size: 13px;
+  color: #191c1e;
+}
+
+.inv-td-id {
+  color: #747783;
+  font-weight: 600;
+}
+
+.font-semibold { font-weight: 600; }
+.text-right { text-align: right; }
+
+.inv-unit-pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background-color: #f2f4f6;
+  color: #434652;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.inv-status-pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.inv-status-pill.active { background-color: #ECFDF5; color: #059669; }
+.inv-status-pill.review { background-color: #FEF3C7; color: #D97706; }
+
+.inv-state-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.inv-state-pill.success { background-color: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+.inv-state-pill.warning { background-color: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; }
+.inv-state-pill.primary { background-color: #d9e2ff; color: #114295; border: 1px solid #b0c6ff; }
+.inv-state-pill.danger { background-color: #FEE2E2; color: #DC2626; border: 1px solid #FCA5A5; }
+
+.inv-icon-sm { width: 16px; height: 16px; }

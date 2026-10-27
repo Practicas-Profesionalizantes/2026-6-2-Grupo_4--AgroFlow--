@@ -1,109 +1,144 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
+import Home from '../pages/principal/Home';
+import Login from '../pages/principal/Login';
+import Register from '../pages/principal/Register';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import PanelCliente from '../pages/PanelCliente';
-import PanelAdmin from '../pages/PanelAdmin'; // <-- Importación agregada
+import PanelAdmin from '../pages/administrador/PanelAdmin';
+import PanelOperario from '../pages/operari/PanelOperario';
+import ArmadoLotes from '../pages/operari/ArmadoLotes';
+import EstadoAnimales from '../pages/operari/EstadoAnimales';
+import CargaCamiones from '../pages/operari/CargaCamiones';
+import PanelSupervisor from '../pages/superviso/PanelSupervisor';
+import Inventario from '../pages/superviso/Inventario';
+import RegistroActividades from '../pages/superviso/RegistroActividades';
+import Certificaciones from '../pages/superviso/Certificaciones';
+import ModuloOperario from '../pages/administrador/ModuloOperario';
+import ModuloSupervisor from '../pages/administrador/ModuloSupervisor';
+import GestionUsuarios from '../pages/administrador/GestionUsuarios';
+import ClienteInicio from '../pages/client/ClienteInicio';
+import ClienteResumen from '../pages/client/ClienteResumen';
+import Transporte from '../pages/client/Transporte';
 
-import { 
-  Home as HomeIcon, 
-  Boxes, 
-  ShoppingCart, 
-  ClipboardList, 
-  Truck 
+import {
+  Home as HomeIcon,
+  Boxes,
+  ShoppingCart,
+  ClipboardList,
+  Truck,
+  LayoutDashboard,
+  Package,
+  History,
+  FileCheck,
+  Users,
+  ShieldCheck
 } from 'lucide-react';
 
 const menuAdmin = [
-  { texto: "Home", ruta: "/admin/home", icono: <HomeIcon size={20} /> },
-  { texto: "Inventory", ruta: "/admin/inventario", icono: <Boxes size={20} /> },
-  { texto: "Orders", ruta: "/admin/ordenes", icono: <ShoppingCart size={20} /> }
+  { texto: "Panel Principal", ruta: "/admin", icono: <LayoutDashboard size={20} /> },
+  { texto: "Gestión de Usuarios", ruta: "/admin/usuarios", icono: <Users size={20} /> },
+  { texto: "Módulo Operario", ruta: "/admin/operario", icono: <ClipboardList size={20} /> },
+  { texto: "Módulo Supervisor", ruta: "/admin/supervisor", icono: <ShieldCheck size={20} /> }
 ];
 
 const menuOperario = [
-  { texto: "Home", ruta: "/operario", icono: <HomeIcon size={20} /> },
-  { texto: "Medical History", ruta: "/historial-medico", icono: <ClipboardList size={20} /> },
-  { texto: "Distribution", ruta: "/distribucion", icono: <Truck size={20} /> }
+  { texto: "Inicio / Dashboard", ruta: "/operario", icono: <LayoutDashboard size={20} /> },
+  { texto: "Estado de Animales", ruta: "/operario/estado-animales", icono: <ClipboardList size={20} /> },
+  { texto: "Armado de Lotes", ruta: "/operario/armado-lotes", icono: <Package size={20} /> },
+  { texto: "Carga de Camiones", ruta: "/operario/carga-camiones", icono: <Truck size={20} /> },
 ];
 
 const menuSupervisor = [
-  { texto: "Home", ruta: "/supervisor", icono: <HomeIcon size={20} /> },
-  { texto: "Inventory", ruta: "/inventario", icono: <Boxes size={20} /> }
+  { texto: "Inicio", ruta: "/supervisor", icono: <LayoutDashboard size={20} /> },
+  { texto: "Inventario de Ganado", ruta: "/supervisor/inventario", icono: <Boxes size={20} /> },
+  { texto: "Registro Actividades", ruta: "/supervisor/actividades", icono: <History size={20} /> },
+  { texto: "Certificaciones", ruta: "/supervisor/certificaciones", icono: <FileCheck size={20} /> }
 ];
 
 const menuCliente = [
-  { texto: "Home", ruta: "/cliente/home", icono: <HomeIcon size={20} /> },
-  { texto: "Panel de control", ruta: "/cliente", icono: <Boxes size={20} /> },
-  { texto: "Orders", ruta: "/ordenes", icono: <ShoppingCart size={20} /> }
+  { texto: "Catálogo de Ganado", ruta: "/cliente", icono: <Boxes size={20} /> },
+  { texto: "Seguimiento", ruta: "/cliente/tracker", icono: <Truck size={20} /> },
+  { texto: "Resumen", ruta: "/cliente/resumen", icono: <ClipboardList size={20} /> }
 ];
 
 const LayoutPublico = () => (
   <>
     <Header />
-    <Outlet /> 
+    <Outlet />
   </>
 );
 
 const LayoutPrivado = ({ opcionesMenu, children }) => (
-  <div style={{ display: 'flex' }}>
+  <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F4F6F8' }}>
     <Sidebar opcionesMenu={opcionesMenu} />
-    <main style={{ flexGrow: 1, padding: '40px', backgroundColor: '#F4F6F8', minHeight: '100vh' }}>
+    <main
+      style={{
+        flexGrow: 1,
+        marginLeft: '50px',
+        padding: '30px 40px',
+        backgroundColor: '#F4F6F8',
+        minHeight: '100vh',
+        boxSizing: 'border-box',
+        transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+      }}
+    >
       {children}
     </main>
   </div>
 );
 
-const RutaProtegida = ({ rolPermitido, opcionesMenu, children }) => {
-  const usuarioGuardado = localStorage.getItem('usuario');
-  
-  if (!usuarioGuardado) {
-    return <Navigate to="/login" replace />;
-  }
-
-  const usuario = JSON.parse(usuarioGuardado);
-
-  if (usuario.rol !== rolPermitido) {
-    return <Navigate to="/" replace />;
-  }
-
-  return <LayoutPrivado opcionesMenu={opcionesMenu}>{children}</LayoutPrivado>;
-};
-
 function AppRoutes() {
   return (
     <Router>
       <Routes>
-        
+
         <Route element={<LayoutPublico />}>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
 
-        {/* Panel de Admin actualizado */}
-        <Route path="/admin" element={
-          <RutaProtegida rolPermitido="Administrador" opcionesMenu={menuAdmin}>
-            <PanelAdmin />
-          </RutaProtegida>
+        <Route path="/admin/*" element={
+          <LayoutPrivado opcionesMenu={menuAdmin}>
+            <Routes>
+              <Route path="/" element={<PanelAdmin />} />
+              <Route path="/usuarios" element={<GestionUsuarios />} />
+              <Route path="/operario" element={<ModuloOperario />} />
+              <Route path="/supervisor" element={<ModuloSupervisor />} />
+            </Routes>
+          </LayoutPrivado>
         } />
-        
-        <Route path="/operario" element={
-          <RutaProtegida rolPermitido="Operario" opcionesMenu={menuOperario}>
-            <h2>Panel de Operario (Registros)</h2>
-          </RutaProtegida>
+
+        <Route path="/operario/*" element={
+          <LayoutPrivado opcionesMenu={menuOperario}>
+            <Routes>
+              <Route path="/" element={<PanelOperario />} />
+              <Route path="/estado-animales" element={<EstadoAnimales />} />
+              <Route path="/armado-lotes" element={<ArmadoLotes />} />
+              <Route path="/carga-camiones" element={<CargaCamiones />} />
+            </Routes>
+          </LayoutPrivado>
         } />
-        
-        <Route path="/supervisor" element={
-          <RutaProtegida rolPermitido="Supervisor" opcionesMenu={menuSupervisor}>
-            <h2>Panel de Supervisor (Stock)</h2>
-          </RutaProtegida>
+
+        <Route path="/supervisor/*" element={
+          <LayoutPrivado opcionesMenu={menuSupervisor}>
+            <Routes>
+              <Route path="/" element={<PanelSupervisor />} />
+              <Route path="/inventario" element={<Inventario />} />
+              <Route path="/actividades" element={<RegistroActividades />} />
+              <Route path="/certificaciones" element={<Certificaciones />} />
+            </Routes>
+          </LayoutPrivado>
         } />
-        
+
         <Route path="/cliente/*" element={
-          <RutaProtegida rolPermitido="Cliente" opcionesMenu={menuCliente}>
-            <PanelCliente />
-          </RutaProtegida>
+          <LayoutPrivado opcionesMenu={menuCliente}>
+            <Routes>
+              <Route path="/" element={<ClienteInicio />} />
+              <Route path="/tracker" element={<Transporte />} />
+              <Route path="/resumen" element={<ClienteResumen />} />
+            </Routes>
+          </LayoutPrivado>
         } />
 
         <Route path="*" element={<Navigate to="/" replace />} />

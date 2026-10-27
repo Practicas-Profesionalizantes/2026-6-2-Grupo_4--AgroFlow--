@@ -1,7 +1,7 @@
-import '../styles/FormularioLogin.css';
+import '../../styles/FormularioLogin.css';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { loginUsuario, cambiarContrasenaDirecto } from '../services/usuarioService';
+import { loginUsuario, cambiarContrasenaDirecto } from '../../services/usuarioService';
 
 function Login() {
   const [email, setEmail] = useState("");

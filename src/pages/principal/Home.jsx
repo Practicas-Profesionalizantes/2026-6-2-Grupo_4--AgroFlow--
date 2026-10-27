@@ -1,8 +1,8 @@
-import '../styles/Home.css';
+import '../../styles/Home.css';
 import { Link } from 'react-router-dom';
-import imgRutas from '../assets/Flechitas.png';
-import imgRoles from '../assets/Roles.png'; 
-import imgSalud from '../assets/Salud.png';
+import imgRutas from '../../assets/Flechitas.png';
+import imgRoles from '../../assets/Roles.png'; 
+import imgSalud from '../../assets/Salud.png';
 
 function Home() {
     return (

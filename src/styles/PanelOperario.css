@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+.po-container {
+  background-color: #F4F6F8;
+  padding: 1.5rem 2rem;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  color: #1e293b;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Header */
+.po-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.po-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #000000;
+  margin: 0;
+}
+
+.po-subtitle {
+  font-size: 0.9rem;
+  color: #888888;
+  font-style: italic;
+  margin: 0.2rem 0 0 0;
+  font-weight: 400;
+}
+
+.po-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.po-badge-turno {
+  background-color: #0E4194;
+  color: #ffffff;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  font-style: italic;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Grilla Métricas */
+.po-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.po-card {
+  position: relative;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 1.15rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.04);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.po-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.po-tag-urgent { background-color: #fce7f3; color: #be123c; }
+.po-tag-general { background-color: #d1fae5; color: #047857; }
+.po-tag-anden { background-color: #ffedd5; color: #c2410c; }
+.po-tag-hoy { background-color: #f1f5f9; color: #64748b; }
+
+.po-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.po-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-shrink: 0;
+}
+
+.po-bg-blue { background-color: #e0f2fe; }
+.po-bg-green { background-color: #d1fae5; }
+.po-bg-orange { background-color: #ffedd5; }
+.po-bg-slate { background-color: #f1f5f9; }
+
+.po-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.po-text-blue { color: #2563eb; }
+.po-text-green { color: #059669; }
+.po-text-orange { color: #b45309; }
+.po-text-slate { color: #374151; }
+.po-text-navy { color: #1e40af; }
+.po-text-amber { color: #92400e; }
+
+.po-card-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #1e293b;
+  padding-top: 2rem;
+}
+
+.po-card-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  font-style: italic;
+  margin: 0.2rem 0;
+  color: #0f172a;
+}
+
+.po-card-unit {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  font-style: italic;
+}
+
+.po-card-footer-link {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-style: italic;
+  color: #475569;
+}
+
+.po-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1e293b;
+}
+
+.po-link-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+}
+
+.po-active-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #047857;
+  margin-bottom: 0.4rem;
+}
+
+.po-tags-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+}
+
+.po-mini-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  font-style: italic;
+}
+
+.po-tag-envio { background-color: #e0f2fe; color: #0369a1; }
+.po-tag-fallecido { background-color: #ffe4e6; color: #be123c; }
+.po-tag-obs { background-color: #ffedd5; color: #c2410c; }
+
+.po-sync-info {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-style: italic;
+  color: #475569;
+  display: flex;
+  align-items: center;
+}
+
+.po-sync-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-right: 0.25rem;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+/* Sección Operaciones */
+.po-operations-section {
+  margin-top: 3rem;
+  padding-top: 0px;
+}
+
+.po-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2rem;
+}
+
+.po-section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #000000;
+  margin: 0;
+}
+
+/* Sección Inferior (2 Columnas) */
+.po-bottom-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 0px;
+  min-height: auto;
+  align-items: flex-start;
+}
+
+.po-bottom-card {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.04);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.po-bottom-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.po-bottom-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.po-bottom-header-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #0E4194;
+}
+
+.po-bottom-title {
+  font-size: 1rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #000000;
+  margin: 0;
+}
+
+.po-badge-nuevas {
+  background-color: #fce7f3;
+  color: #be123c;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.po-sub-item {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 0.85rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #f1f5f9;
+}
+
+.po-sub-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.3rem;
+}
+
+.po-time-blue {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #0E4194;
+}
+
+.po-time-gray {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #64748b;
+}
+
+.po-badge-alta {
+  background-color: #ffe4e6;
+  color: #be123c;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.po-badge-media {
+  background-color: #ffedd5;
+  color: #c2410c;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.po-badge-completada {
+  background-color: #d1fae5;
+  color: #047857;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.po-sub-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #1e293b;
+  margin: 0 0 0.2rem 0;
+}
+
+.po-sub-desc {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: #64748b;
+  margin: 0;
+}
+
+.po-completed {
+  color: #64748b;
+  text-decoration: line-through;
+}
+
+.po-green-text {
+  color: #047857;
+}
+
+.po-badge-actividad {
+  background-color: #d1fae5;
+  color: #047857;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.po-status-envio { font-size: 0.7rem; font-weight: 700; font-style: italic; color: #0369a1; }
+.po-status-despachada { font-size: 0.7rem; font-weight: 700; font-style: italic; color: #047857; }
+.po-status-fallecido { font-size: 0.7rem; font-weight: 700; font-style: italic; color: #be123c; }
+.po-status-activa { font-size: 0.7rem; font-weight: 700; font-style: italic; color: #047857; }
+
+.po-bottom-footer {
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.po-footer-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #0E4194;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.po-footer-arrow {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-left: 0.3rem;
+}

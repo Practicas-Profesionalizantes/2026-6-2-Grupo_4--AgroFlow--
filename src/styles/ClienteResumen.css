@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+.res-container {
+  background-color: #F4F6F8;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  color: #191c1e;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+}
+
+.res-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 1.5rem;
+}
+
+.res-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .res-header {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.res-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.res-subtitle {
+  font-size: 14px;
+  color: #888888;
+  margin: 0;
+}
+
+.res-badge-client {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: #d9e2ff;
+  color: #114295;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Grid de Estadísticas */
+.res-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) { .res-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .res-stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.res-stat-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 0 30px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-left: 4px solid #0E4194;
+}
+.res-stat-card.success { border-left-color: #059669; }
+.res-stat-card.warning { border-left-color: #D97706; }
+.res-stat-card.info { border-left-color: #0284c7; }
+
+.res-stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.res-stat-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #747783;
+  letter-spacing: 0.05em;
+}
+
+.res-stat-icon {
+  width: 20px;
+  height: 20px;
+  color: #0E4194;
+}
+
+.res-stat-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.res-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.res-stat-desc {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+/* Tarjeta y Tabla */
+.res-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 30px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.res-card-header-title {
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+}
+
+.res-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.res-table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.res-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.res-table th {
+  padding: 0.75rem 1rem;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #f2f4f6;
+  color: #747783;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.res-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s;
+}
+.res-table tbody tr:hover {
+  background-color: rgba(242, 244, 246, 0.5);
+}
+
+.res-table td {
+  padding: 1rem;
+  font-size: 13px;
+  color: #191c1e;
+}
+
+.res-td-id { color: #0E4194; font-weight: 700; }
+.res-td-price { font-weight: 700; color: #0f172a; }
+.res-td-muted { color: #64748b; }
+.text-right { text-align: right; }
+
+.res-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.res-badge.success { background-color: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+.res-badge.warning { background-color: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; }
+
+.res-icon-xs { width: 14px; height: 14px; }
+.res-icon-sm { width: 16px; height: 16px; }

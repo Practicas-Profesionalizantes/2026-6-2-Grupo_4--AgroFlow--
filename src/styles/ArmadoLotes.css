@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+.al-container {
+  background-color: #F4F6F8;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  color: #191c1e;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+}
+
+.al-wrapper-simple {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 1.25rem;
+}
+
+.al-header-simple {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.al-title-simple {
+  font-size: 26px;
+  line-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.al-subtitle-simple {
+  font-size: 14px;
+  color: #888888;
+}
+
+.al-card-simple {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Báscula */
+.al-scale-telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f2f4f6;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #006c4a;
+}
+
+.al-scale-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.al-scale-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #747783;
+  display: block;
+}
+
+.al-scale-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #191c1e;
+}
+
+.al-scale-status-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 12px;
+  font-weight: 600;
+  color: #006c4a;
+}
+
+.al-dot-green {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #006c4a;
+}
+
+.al-text-secondary { color: #006c4a !important; }
+.al-icon-sm { width: 16px; height: 16px; }
+.al-icon-md { width: 20px; height: 20px; }
+
+/* Mensaje Éxito */
+.al-alert-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ECFDF5;
+  color: #059669;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Formulario */
+.al-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.al-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.al-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.al-label-muted {
+  font-size: 12px;
+  color: #434652;
+}
+
+.al-input-container, .al-select-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.al-input-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: #747783;
+  width: 20px;
+  height: 20px;
+}
+
+.al-text-input, .al-select-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #000000;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.al-select-input {
+  appearance: none;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.al-select-arrow {
+  position: absolute;
+  right: 0.85rem;
+  pointer-events: none;
+  color: #747783;
+}
+
+.al-text-input:focus, .al-select-input:focus {
+  outline: none;
+  border-color: #002b6d;
+  box-shadow: 0 0 0 3px rgba(0, 43, 109, 0.15);
+}
+
+.al-conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.al-cond-btn {
+  padding: 0.625rem 0.5rem;
+  border-radius: 8px;
+  background-color: #f2f4f6;
+  color: #191c1e;
+  border: none;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.al-cond-btn:hover { background-color: #e6e8ea; }
+.al-cond-btn.active {
+  background-color: #0e4194;
+  color: #ffffff;
+}
+
+.al-btn-submit-main {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  background-color: #0e4194;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.al-btn-submit-main:hover { background-color: #08285c; }

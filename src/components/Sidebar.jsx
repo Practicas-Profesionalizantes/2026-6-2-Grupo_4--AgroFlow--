@@ -64,16 +64,7 @@ function Sidebar({ opcionesMenu = [] }) {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <div 
-                        className={`sidebar-item ${location.pathname === "/settings" ? 'activo' : ''}`}
-                        onClick={() => {
-                            navigate("/settings");
-                            if (window.innerWidth <= 768) setColapsado(true);
-                        }}
-                    >
-                        <span className="item-icono"><Settings size={20} /></span>
-                        <span className="item-texto">Settings</span>
-                    </div>
+                    
                     
                     <div className="sidebar-item" onClick={cerrarSesion} style={{ color: '#E53E3E', cursor: 'pointer' }}>
                         <span className="item-icono"><LogOut size={20} /></span>

@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+.ps-container {
+  background-color: #F4F6F8;
+  font-family: 'Arimo', sans-serif;
+  font-style: italic;
+  color: #191c1e;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+}
+
+.ps-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 1.5rem;
+}
+
+.ps-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ps-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.ps-subtitle {
+  font-size: 14px;
+  color: #888888;
+}
+
+.ps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .ps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ps-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #e2e8f0;
+}
+
+.ps-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 0.75rem;
+}
+
+.ps-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ps-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.ps-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.ps-text-primary { color: #0E4194; }
+.ps-text-warning { color: #D97706; }
+
+/* Estilos de Alerta de Stock */
+.ps-stock-card.alert-red {
+  border-left: 6px solid #DC2626;
+  background-color: #FEF2F2;
+}
+
+.ps-stock-card.alert-yellow {
+  border-left: 6px solid #D97706;
+  background-color: #FFFBEB;
+}
+
+.ps-stock-card.alert-green {
+  border-left: 6px solid #059669;
+}
+
+.ps-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.ps-badge.alert-red { background-color: #FEE2E2; color: #DC2626; }
+.ps-badge.alert-yellow { background-color: #FEF3C7; color: #D97706; }
+.ps-badge.alert-green { background-color: #ECFDF5; color: #059669; }
+
+.ps-stock-content {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.ps-stock-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ps-stock-unit {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.ps-card-desc {
+  font-size: 12px;
+  color: #475569;
+  margin: 0;
+}
+
+/* Listas internas de las tarjetas */
+.ps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ps-list-item {
+  background-color: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid #f1f5f9;
+}
+
+.ps-list-item.warning-bg {
+  background-color: #FFFBEB;
+  border-color: #FDE68A;
+}
+
+.ps-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.ps-list-text {
+  font-size: 12px;
+  color: #475569;
+  margin: 0;
+}
+
+.ps-list-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.ps-status-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+}
+.ps-status-tag.blue { background-color: #d9e2ff; color: #114295; }
+.ps-status-tag.green { background-color: #ECFDF5; color: #059669; }
+
+.ps-caravana { color: #0f172a; }
+.ps-dest { font-size: 11px; color: #D97706; font-weight: 700; }
+.ps-motivo { font-size: 12px; color: #475569; }
+.ps-lote-tag { font-size: 11px; font-weight: 700; color: #114295; background-color: #d9e2ff; padding: 0.1rem 0.4rem; border-radius: 4px; }
+.ps-camion-status { font-size: 12px; color: #006c4a; font-weight: 600; }
