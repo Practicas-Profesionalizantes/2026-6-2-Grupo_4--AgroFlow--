@@ -1,0 +1,172 @@
+/* --- 1. IMPORTACIÓN DE LA TIPOGRAFÍA --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* --- 2. CONTENEDOR PRINCIPAL --- */
+.agroflow-screen {
+  background-color: #F4F6F8;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.agroflow-frame {
+  width: 100%;
+  max-width: 100% !important; 
+  margin: 0;
+  padding-top: 15px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- 3. MAPA MÁS GRANDE (AMPLIADO) --- */
+.agroflow-map-container {
+  height: 72vh;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  border-top: 3px solid #000; 
+  border-left: 3px solid #000;
+  border-right: 3px solid #000;
+  border-bottom: none; 
+}
+
+/* --- 4. SECCIÓN TABLA COMPACTA --- */
+.agroflow-table-section {
+  padding: 0;
+  background-color: #F4F6F8;
+  width: 100%;
+}
+
+.agroflow-table-wrapper {
+  overflow-x: auto;
+  background-color: #fff;
+  width: 100%;
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+  border-left: 3px solid #000;
+  border-right: 3px solid #000;
+  margin-top: 0; 
+}
+
+.agroflow-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #000;
+}
+
+/* Encabezados de Tabla (TH) */
+.agroflow-table th {
+  padding: 8px 12px;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 14px;
+  text-align: left;
+  border-bottom: 3px solid #000;
+  background-color: #fff;
+}
+
+.agroflow-table th.center {
+  text-align: center;
+}
+
+.agroflow-table th.width-pos { width: 15%; }
+.agroflow-table th.width-ruta { width: 15%; }
+
+/* Filas y Celdas de Datos */
+.agroflow-row {
+  border-bottom: 2px solid #000;
+  height: 40px;
+}
+
+.agroflow-cell {
+  padding: 4px 12px;
+  vertical-align: middle;
+}
+
+.agroflow-cell.center {
+  padding: 4px;
+  text-align: center;
+}
+
+.agroflow-cell.doc-lic { font-size: 12px; }
+.agroflow-cell.patente { font-size: 12px; }
+
+/* Conductor con círculo de estado */
+.driver-status-container {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: inline-block;
+  border: 1px solid rgba(0,0,0,0.25);
+}
+
+/* Botones compactos */
+.btn-agroflow {
+  background-color: #0d4295;
+  color: #fff;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.btn-agroflow.italic {
+  font-style: italic;
+}
+
+/* Renglones vacíos */
+.agroflow-row-empty {
+  border-bottom: 2px solid #000;
+  height: 45px; 
+}
+
+/* ====================================================================
+   ESTILOS DINÁMICOS PARA LOS MARCADORES DEL MAPA DESDE EL DIVICON
+   ==================================================================== */
+
+.leaflet-div-icon.custom-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-icon-container {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.map-icon-destino {
+  background-color: #ef4444;
+}
+
+.map-icon-svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
