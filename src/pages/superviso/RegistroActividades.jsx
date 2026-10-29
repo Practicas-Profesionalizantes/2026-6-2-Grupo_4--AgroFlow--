@@ -1,35 +1,63 @@
-import React, { useState } from 'react';
-import { 
-  Activity, 
-  Search, 
-  User, 
-  Clock, 
-  Calendar, 
-  ShieldCheck 
+import React, { useState, useEffect } from 'react';
+import {
+  Activity,
+  Search,
+  User,
+  Clock,
+  Calendar,
+  ShieldCheck
 } from 'lucide-react';
 import '../../styles/RegistroActividades.css';
+import { obtenerAuditoriaGeneral } from '../../services/actividadesService';
 
 const RegistroActividades = () => {
   const [busqueda, setBusqueda] = useState('');
+  const [logs, setLogs] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
-  // Datos simulados basados en la tabla `actividades` de la BD
-  const [logs, setLogs] = useState([
-    { id: 1, usuario: 'Martín Rivas (Operario)', accion: 'Registró animal #AR-4892 en Lote L-204', fecha: '24/10/2024 - 16:10 hs' },
-    { id: 2, usuario: 'Martín Rivas (Operario)', accion: 'Actualizó estado de animal #AR-4876 a Enfermo', fecha: '24/10/2024 - 15:54 hs' },
-    { id: 3, usuario: 'Juan Pérez (Operario)', accion: 'Confirmó carga de animal #AR-4842 en Camión AB123CD', fecha: '24/10/2024 - 15:20 hs' },
-    { id: 4, usuario: 'Martín Rivas (Operario)', accion: 'Registró animal #AR-4835 en Lote L-204', fecha: '24/10/2024 - 15:05 hs' },
-    { id: 5, usuario: 'Juan Pérez (Operario)', accion: 'Inició sesión en el sistema', fecha: '24/10/2024 - 13:00 hs' },
-  ]);
+  const usuarioLogueado = JSON.parse(localStorage.getItem('usuario'));
+  const OPERARIO_ID = usuarioLogueado?.id;
 
-  const logsFiltrados = logs.filter(log => 
-    log.usuario.toLowerCase().includes(busqueda.toLowerCase()) ||
-    log.accion.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  useEffect(() => {
+    if (!OPERARIO_ID) {
+      setCargando(false);
+      return;
+    }
+
+    // Usamos parseInt para asegurarnos de extraer SOLO el número limpio (ej: transformará "6:1" o 6 en 6)
+    const idLimpio = parseInt(OPERARIO_ID, 10);
+    if (isNaN(idLimpio)) {
+      setCargando(false);
+      return;
+    }
+
+    obtenerAuditoriaGeneral(idLimpio)
+      .then(data => {
+        setLogs(data);
+        setCargando(false);
+      })
+      .catch(err => {
+        console.error("Error al cargar la auditoría general:", err);
+        setCargando(false);
+      });
+  }, [OPERARIO_ID]);
+
+  const logsFiltrados = logs.filter(log => {
+    // 1. Verificamos que el usuario que hizo la acción tenga el rol de "Operario"
+    const esUnOperario = log.usuario?.rol?.toLowerCase() === 'operario';
+
+    // 2. Mantenemos el filtro de la barra de búsqueda por texto
+    const accion = log.accionDescription || '';
+    const coincideBusqueda = accion.toLowerCase().includes(busqueda.toLowerCase());
+
+    return esUnOperario && coincideBusqueda;
+  });
+
 
   return (
     <div className="ra-container">
       <div className="ra-wrapper">
-        
+
         {/* ENCABEZADO */}
         <div className="ra-header">
           <div>
@@ -45,9 +73,9 @@ const RegistroActividades = () => {
         <div className="ra-toolbar">
           <div className="ra-search-container">
             <Search className="ra-search-icon" />
-            <input 
-              type="text" 
-              placeholder="Buscar por operario o acción..." 
+            <input
+              type="text"
+              placeholder="Buscar por operario o acción..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               className="ra-search-input"
@@ -68,20 +96,37 @@ const RegistroActividades = () => {
                 </tr>
               </thead>
               <tbody>
-                {logsFiltrados.map((log) => (
-                  <tr key={log.id}>
-                    <td className="ra-td-id">#LOG-{100 + log.id}</td>
-                    <td>
-                      <span className="ra-user-badge">
-                        <User className="ra-icon-xs" /> {log.usuario}
-                      </span>
-                    </td>
-                    <td><strong>{log.accion}</strong></td>
-                    <td className="text-right ra-td-date">
-                      <Clock className="ra-icon-xs" /> {log.fecha}
+                {!OPERARIO_ID ? (
+                  <tr>
+                    <td colSpan="4" className="text-center" style={{ color: 'red', fontWeight: 'bold' }}>
+                      ⚠️ Debe iniciar sesión para ver sus actividades.
                     </td>
                   </tr>
-                ))}
+                ) : cargando ? (
+                  <tr>
+                    <td colSpan="4" className="text-center">Cargando registros desde el servidor...</td>
+                  </tr>
+                ) : logsFiltrados.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="text-center">No se encontraron actividades.</td>
+                  </tr>
+                ) : (
+                  logsFiltrados.map((log) => (
+                    <tr key={log.id}>
+                      <td className="ra-td-id">#LOG-{100 + log.id}</td>
+                      <td>
+                        <span className="ra-user-badge">
+                          <User className="ra-icon-xs" /> {log.usuario?.nombre} ({log.usuario?.rol})
+                        </span>
+                      </td>
+                      <td><strong>{log.accion}</strong></td>
+                      <td className="text-right ra-td-date">
+                        {/* Como tu base de datos genera la fecha en el backend, usamos un valor por defecto si no viniera */}
+                        <Clock className="ra-icon-xs" /> {log.fecha || 'Reciente'}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  Search, 
-  UserPlus, 
-  Edit2, 
-  Trash2, 
-  Shield, 
-  User, 
-  X 
+import {
+  Users,
+  Search,
+  UserPlus,
+  Edit2,
+  Trash2,
+  Shield,
+  User,
+  X
 } from 'lucide-react';
 import '../../styles/GestionUsuarios.css';
+import { registrarUsuario, obtenerTodosUsuarios, eliminarUsuario as apiEliminarUsuario } from '../../services/usuarioService';
 
 const GestionUsuarios = () => {
   const [busqueda, setBusqueda] = useState('');
+  const [cargando, setCargando] = useState(true);
+
+  const usuarioLogueado = JSON.parse(localStorage.getItem('usuario'));
+  const ADMIN_ID = usuarioLogueado?.id ? parseInt(usuarioLogueado.id, 10) : null;
   const [modalAbierto, setModalAbierto] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
-  
+
   // Estado del formulario para Crear / Editar
   const [usuarioActual, setUsuarioActual] = useState({
     id: null,
@@ -25,16 +30,29 @@ const GestionUsuarios = () => {
     estado: 'Activo'
   });
 
-  // Datos simulados de usuarios basados en tu sistema
-  const [usuarios, setUsuarios] = useState([
-    { id: 1, nombre: 'Ignacio Alvarez', email: 'admin@agroflow.com', rol: 'Administrador', estado: 'Activo' },
-    { id: 2, nombre: 'Martín Rivas', email: 'mrivas@agroflow.com', rol: 'Operario', estado: 'Activo' },
-    { id: 3, nombre: 'Juan Pérez', email: 'jperez@agroflow.com', rol: 'Operario', estado: 'Activo' },
-    { id: 4, nombre: 'Carlos Supervisor', email: 'csupervisor@agroflow.com', rol: 'Supervisor', estado: 'Activo' },
-  ]);
+  const [usuarios, setUsuarios] = useState([]);
 
-  const usuariosFiltrados = usuarios.filter(u => 
-    u.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+  const cargarUsuarios = () => {
+    if (!ADMIN_ID) return;
+    setCargando(true);
+    obtenerTodosUsuarios(ADMIN_ID)
+      .then(data => {
+        setUsuarios(data);
+        setCargando(false);
+      })
+      .catch(err => {
+        console.error("Error al cargar usuarios:", err);
+        setCargando(false);
+      });
+  };
+
+  React.useEffect(() => {
+    cargarUsuarios();
+  }, [ADMIN_ID]);
+
+   const usuariosFiltrados = usuarios.filter(u => 
+    u.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
+    u.apellido?.toLowerCase().includes(busqueda.toLowerCase()) ||
     u.email.toLowerCase().includes(busqueda.toLowerCase()) ||
     u.rol.toLowerCase().includes(busqueda.toLowerCase())
   );
@@ -52,26 +70,35 @@ const GestionUsuarios = () => {
   };
 
   const eliminarUsuario = (id) => {
+    if (!ADMIN_ID) return;
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
-      setUsuarios(usuarios.filter(u => u.id !== id));
+      apiEliminarUsuario(id, ADMIN_ID)
+        .then(() => cargarUsuarios())
+        .catch(err => console.error("Error al eliminar:", err));
     }
   };
 
   const guardarUsuario = (e) => {
     e.preventDefault();
-    if (modoEdicion) {
-      setUsuarios(usuarios.map(u => u.id === usuarioActual.id ? usuarioActual : u));
-    } else {
-      const nuevo = { ...usuarioActual, id: usuarios.length + 1 };
-      setUsuarios([...usuarios, nuevo]);
-    }
-    setModalAbierto(false);
+    if (!ADMIN_ID) return;
+
+    const datosParaEnviar = {
+      ...usuarioActual,
+      contrasena: usuarioActual.contrasena || 'Agro1234' // Contraseña por defecto si es cuenta nueva
+    };
+
+    registrarUsuario(datosParaEnviar, ADMIN_ID)
+      .then(() => {
+        cargarUsuarios();
+        setModalAbierto(false);
+      })
+      .catch(err => console.error("Error al guardar usuario:", err));
   };
 
   return (
     <div className="gu-container">
       <div className="gu-wrapper">
-        
+
         {/* ENCABEZADO */}
         <div className="gu-header">
           <div>
@@ -87,9 +114,9 @@ const GestionUsuarios = () => {
         <div className="gu-toolbar">
           <div className="gu-search-container">
             <Search className="gu-search-icon" />
-            <input 
-              type="text" 
-              placeholder="Buscar por nombre, correo o rol..." 
+            <input
+              type="text"
+              placeholder="Buscar por nombre, correo o rol..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               className="gu-search-input"
@@ -112,35 +139,52 @@ const GestionUsuarios = () => {
                 </tr>
               </thead>
               <tbody>
-                {usuariosFiltrados.map((user) => (
-                  <tr key={user.id}>
-                    <td className="gu-td-id">#USR-{user.id}</td>
-                    <td><strong>{user.nombre}</strong></td>
-                    <td className="gu-td-muted">{user.email}</td>
-                    <td>
-                      <span className={`gu-role-pill ${user.rol.toLowerCase()}`}>
-                        {user.rol === 'Administrador' && <Shield className="gu-icon-xs" />}
-                        {user.rol !== 'Administrador' && <User className="gu-icon-xs" />}
-                        {user.rol}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="gu-status-pill active">{user.estado}</span>
-                    </td>
-                    <td className="text-right gu-actions-cell">
-                      <button className="gu-btn-action edit" onClick={() => abrirModalEditar(user)}>
-                        <Edit2 className="gu-icon-xs" /> Editar
-                      </button>
-                      <button className="gu-btn-action delete" onClick={() => eliminarUsuario(user.id)}>
-                        <Trash2 className="gu-icon-xs" /> Eliminar
-                      </button>
+                {!ADMIN_ID ? (
+                  <tr>
+                    <td colSpan="6" className="text-center" style={{ color: 'red', fontWeight: 'bold' }}>
+                      ⚠️ Debe iniciar sesión para gestionar los usuarios.
                     </td>
                   </tr>
-                ))}
+                ) : cargando ? (
+                  <tr>
+                    <td colSpan="6" className="text-center">Cargando usuarios desde el servidor...</td>
+                  </tr>
+                ) : usuariosFiltrados.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="text-center">No se encontraron usuarios.</td>
+                  </tr>
+                ) : (
+                  usuariosFiltrados.map((user) => (
+                    <tr key={user.id}>
+                      <td className="gu-td-id">#USR-{user.id}</td>
+                      <td><strong>{user.nombre} {user.apellido || ''}</strong></td>
+                      <td className="gu-td-muted">{user.email}</td>
+                      <td>
+                        <span className={`gu-role-pill ${user.rol.toLowerCase()}`}>
+                          {user.rol === 'Administrador' && <Shield className="gu-icon-xs" />}
+                          {user.rol !== 'Administrador' && <User className="gu-icon-xs" />}
+                          {user.rol}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="gu-status-pill active">{user.estado}</span>
+                      </td>
+                      <td className="text-right gu-actions-cell">
+                        <button className="gu-btn-action edit" onClick={() => abrirModalEditar(user)}>
+                          <Edit2 className="gu-icon-xs" /> Editar
+                        </button>
+                        <button className="gu-btn-action delete" onClick={() => eliminarUsuario(user.id)}>
+                          <Trash2 className="gu-icon-xs" /> Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
         </div>
+
 
       </div>
 
@@ -157,24 +201,25 @@ const GestionUsuarios = () => {
 
             <form onSubmit={guardarUsuario} className="gu-form">
               <div className="gu-form-group">
-                <label>Nombre Completo</label>
-                <input 
-                  type="text" 
-                  required 
-                  value={usuarioActual.nombre} 
-                  onChange={(e) => setUsuarioActual({...usuarioActual, nombre: e.target.value})}
-                  placeholder="Ej. Juan Pérez"
+                <label>Nombre y Apellido Completo</label>
+                <input
+                  type="text"
+                  required
+                  value={usuarioActual.nombre}
+                  onChange={(e) => setUsuarioActual({ ...usuarioActual, nombre: e.target.value })}
+                  placeholder="Ej. Martín Rivas"
                   className="gu-input"
                 />
               </div>
 
+
               <div className="gu-form-group">
                 <label>Correo Electrónico</label>
-                <input 
-                  type="email" 
-                  required 
-                  value={usuarioActual.email} 
-                  onChange={(e) => setUsuarioActual({...usuarioActual, email: e.target.value})}
+                <input
+                  type="email"
+                  required
+                  value={usuarioActual.email}
+                  onChange={(e) => setUsuarioActual({ ...usuarioActual, email: e.target.value })}
                   placeholder="usuario@agroflow.com"
                   className="gu-input"
                 />
@@ -182,9 +227,9 @@ const GestionUsuarios = () => {
 
               <div className="gu-form-group">
                 <label>Rol en el Sistema</label>
-                <select 
-                  value={usuarioActual.rol} 
-                  onChange={(e) => setUsuarioActual({...usuarioActual, rol: e.target.value})}
+                <select
+                  value={usuarioActual.rol}
+                  onChange={(e) => setUsuarioActual({ ...usuarioActual, rol: e.target.value })}
                   className="gu-input"
                 >
                   <option value="Operario">Operario</option>

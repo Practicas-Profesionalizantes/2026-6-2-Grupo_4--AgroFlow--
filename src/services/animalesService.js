@@ -66,3 +66,9 @@ export const obtenerViajesActivos = async (estado) => {
   if (!res.ok) throw new Error('Error al obtener los camiones asignados.');
   return await res.json();
 };
+
+export const obtenerTodosLosAnimales = async () => {
+  const res = await fetch('http://localhost:8080/api/animales');
+  if (!res.ok) throw new Error('Error al cargar la lista general de animales.');
+  return await res.json();
+};

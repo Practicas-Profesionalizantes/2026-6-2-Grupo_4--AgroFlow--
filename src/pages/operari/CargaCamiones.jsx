@@ -23,7 +23,7 @@ const CargaCamiones = () => {
   const usuarioLogueado = JSON.parse(localStorage.getItem('usuario'));
   const OPERARIO_ID = usuarioLogueado?.id || 1;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const cargarDatosDespacho = async () => {
       try {
         // 1. Traemos los viajes programados en estado 'Pendiente' por el supervisor
@@ -54,8 +54,6 @@ const CargaCamiones = () => {
     setMensajeExito(false);
 
     try {
-      // Registra el despacho del animal usando el servicio que creamos en el primer módulo
-      // Enviamos el motivo "Venta" para cambiar el estado a Vendido y dejar asentada la baja
       await actualizarEstadoAnimal(
         caravanaInput.trim(),
         'Venta',
@@ -72,6 +70,7 @@ const CargaCamiones = () => {
       setLoading(false);
     }
   };
+
 
 
   return (
@@ -115,51 +114,56 @@ const CargaCamiones = () => {
                 <input
                   type="text"
                   className="cc-text-input"
-                  placeholder="Ej. #AR-4892"
+                  placeholder="Ej. RFID-A001"
                   value={caravanaInput}
                   onChange={(e) => setCaravanaInput(e.target.value)}
+                  list="rfid-options-carga"
                   required
+                  disabled={loading}
                 />
+                <datalist id="rfid-options-carga">
+                  {listaAnimales.filter(a => a.estado === 'Activo').map((animal) => (
+                    <option key={animal.id} value={animal.codigoRfid}>
+                      {animal.raza} - {animal.peso} Kg
+                    </option>
+                  ))}
+                </datalist>
               </div>
             </div>
 
+            {/* Select dinámico de Camiones programados por el Supervisor */}
             <div className="cc-form-group">
-              <label className="cc-label">Supervisor / Quien envió la orden</label>
-              <div className="cc-input-container">
-                <User className="cc-input-icon" />
-                <input
-                  type="text"
-                  className="cc-text-input"
-                  placeholder="Ej. Ing. Roberto Maidana"
-                  value={supervisorInput}
-                  onChange={(e) => setSupervisorInput(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="cc-form-group">
-              <label className="cc-label">Camión / Destino Asignado</label>
+              <label className="cc-label">Camión / Orden de Despacho Activa</label>
               <div className="cc-select-container">
                 <Truck className="cc-input-icon" />
                 <select
                   className="cc-select-input"
-                  value={camionInput}
-                  onChange={(e) => setCamionInput(e.target.value)}
+                  value={viajeIdSeleccionado}
+                  onChange={(e) => setViajeIdSeleccionado(e.target.value)}
+                  disabled={loading}
                 >
-                  <option value="Camión AB123CD - Frigorífico Sur">Camión AB123CD - Frigorífico Sur</option>
-                  <option value="Camión EF456GH - Mercado Central">Camión EF456GH - Mercado Central</option>
-                  <option value="Camión JKL789 - Exportación Directa">Camión JKL789 - Exportación Directa</option>
+                  {camionesDisponibles.length === 0 ? (
+                    <option value="">No hay camiones pendientes de carga...</option>
+                  ) : (
+                    camionesDisponibles.map((viaje) => (
+                      <option key={viaje.id} value={viaje.id}>
+                        Camión Patente: {viaje.patenteCamion} - Chófer: {viaje.conductorNombre}
+                      </option>
+                    ))
+                  )}
                 </select>
                 <ChevronDown className="cc-select-arrow" />
               </div>
             </div>
 
-            <button type="submit" className="cc-btn-submit-main">
-              <span>CONFIRMAR CARGA EN CAMIÓN</span>
+            {mensajeError && <div style={{ color: 'red', backgroundColor: '#fee2e2', padding: '10px', borderRadius: '6px', marginBottom: '15px' }}>{mensajeError}</div>}
+
+            <button type="submit" className="cc-btn-submit-main" disabled={loading || camionesDisponibles.length === 0}>
+              <span>{loading ? 'PROCESANDO...' : 'CONFIRMAR CARGA EN CAMIÓN'}</span>
               <ArrowRight className="cc-icon-sm" />
             </button>
           </form>
+
 
         </div>
 

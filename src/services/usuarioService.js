@@ -27,3 +27,17 @@ export const cambiarContrasenaDirecto = async (email, nuevaContrasena) => {
   });
   return response.data;
 };
+
+export const obtenerTodosUsuarios = async (adminId) => {
+  const response = await axios.get(`${API_URL}`, {
+    params: { adminId }
+  });
+  return response.data;
+};
+
+export const eliminarUsuario = async (id, adminId) => {
+  const response = await axios.delete(`${API_URL}/${id}`, {
+    params: { adminId }
+  });
+  return response.data;
+};
