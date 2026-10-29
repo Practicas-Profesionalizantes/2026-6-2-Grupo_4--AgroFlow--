@@ -49,7 +49,7 @@ public class BajasAnimalesService {
         BajasAnimales baja = new BajasAnimales(animal, LocalDate.now(), motivo, detalles);
         BajasAnimales guardada = bajasAnimalesRepository.save(baja);
 
-        actividadesService.registrarAccion(operario, "Registró la baja del animal ID: " + animal.getId() + ". Motivo: " + motivo + ". Estado del animal actualizado a: " + nuevoEstadoAnimal);
+        actividadesService.registrarAccion(operario, "Registró la baja del animal RFID: " + animal.getCodigoRfid() + ". Motivo: " + motivo + ". Estado del animal actualizado a: " + nuevoEstadoAnimal);
 
         return guardada;
     }

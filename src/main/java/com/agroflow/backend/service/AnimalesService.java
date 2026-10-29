@@ -14,6 +14,10 @@ public class AnimalesService {
     @Autowired
     private AnimalesRepository animalesRepository;
 
+    // !!! TE FALTA AGREGAR ESTA INYECCIÓN DE ACÁ !!!
+    @Autowired
+    private ActividadesService actividadesService;
+
     public List<Animales> listarTodos() {
         return animalesRepository.findAll();
     }
@@ -23,6 +27,7 @@ public class AnimalesService {
             throw new RuntimeException("Acceso denegado: Rol no autorizado para agrupar animales.");
         }
         animal.setAgrupamiento(lote);
+        actividadesService.registrarAccion(empleado, "Asignó el animal RFID: " + animal.getCodigoRfid() + " al lote ID: " + lote.getId());
         return animalesRepository.save(animal);
     }
 
