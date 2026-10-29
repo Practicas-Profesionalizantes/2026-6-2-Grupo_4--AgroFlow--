@@ -29,10 +29,19 @@ public class ActividadesService {
         return actividadesRepository.findAll();
     }
 
-    public List<Actividades> obtenerLogsDeUnUsuario(Usuario admin, Integer idUsuario) {
-        if (admin == null || !"Administrador".equalsIgnoreCase(admin.getRol())) {
-            throw new RuntimeException("Acceso denegado: Solo el Administrador puede auditar empleados específicos.");
+        public List<Actividades> obtenerLogsDeUnUsuario(Usuario usuarioConsulta, Integer idUsuario) {
+        if (usuarioConsulta == null) {
+            throw new RuntimeException("Acceso denegado: Usuario no autenticado.");
         }
+
+        boolean esAdmin = "Administrador".equalsIgnoreCase(usuarioConsulta.getRol());
+        boolean esElMismoUsuario = usuarioConsulta.getId().equals(idUsuario);
+
+        if (!esAdmin && !esElMismoUsuario) {
+            throw new RuntimeException("Acceso denegado: No tienes permisos para auditar a este empleado.");
+        }
+
         return actividadesRepository.findByUsuarioId(idUsuario);
     }
+
 }
