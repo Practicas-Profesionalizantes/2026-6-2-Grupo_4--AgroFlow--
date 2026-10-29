@@ -1,35 +1,52 @@
 import React, { useState } from 'react';
-import { 
-  Tag, 
-  ClipboardList, 
-  ArrowRight, 
-  CheckCircle2, 
-  Activity, 
-  ChevronDown 
+import {
+  Tag,
+  ClipboardList,
+  ArrowRight,
+  CheckCircle2,
+  Activity,
+  ChevronDown
 } from 'lucide-react';
 import '../../styles/EstadoAnimales.css';
+import { actualizarEstadoAnimal } from '../../services/animalesService';
 
 const EstadoAnimales = () => {
   const [caravanaInput, setCaravanaInput] = useState('');
   const [nuevoEstado, setNuevoEstado] = useState('Enfermo');
   const [observacion, setObservacion] = useState('');
   const [mensajeExito, setMensajeExito] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [mensajeError, setMensajeError] = useState('');
+  const usuarioLogueado = JSON.parse(localStorage.getItem('usuario'));
+  const OPERARIO_ID = usuarioLogueado?.id || 1;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!caravanaInput.trim()) return;
 
-    // Lógica para actualizar el estado del animal en la base de datos
-    setMensajeExito(true);
-    setCaravanaInput('');
-    setObservacion('');
-    setTimeout(() => setMensajeExito(false), 3000);
+    setLoading(true);
+    setMensajeError('');
+    setMensajeExito(false);
+
+    try {
+      // LLamamos al servicio que creamos en el Paso 1
+      await actualizarEstadoAnimal(caravanaInput.trim(), nuevoEstado, observacion, OPERARIO_ID);
+
+      setMensajeExito(true);
+      setCaravanaInput('');
+      setObservacion('');
+      setTimeout(() => setMensajeExito(false), 3000);
+    } catch (error) {
+      setMensajeError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="ea-container">
       <div className="ea-wrapper-simple">
-        
+
         {/* TÍTULO DIRECTO */}
         <div className="ea-header-simple">
           <h2 className="ea-title-simple">Estado de Animales</h2>
@@ -38,7 +55,7 @@ const EstadoAnimales = () => {
 
         {/* TARJETA ÚNICA DE FORMULARIO */}
         <div className="ea-card-simple">
-          
+
           {/* Indicador de sección */}
           <div className="ea-info-telemetry">
             <div className="ea-info-left">
@@ -59,14 +76,22 @@ const EstadoAnimales = () => {
             </div>
           )}
 
+          {mensajeError &&
+            <div style={{
+              color: 'red', backgroundColor: '#fee2e2',
+              padding: '10px', borderRadius: '6px',
+              marginBottom: '15px'
+            }}>{mensajeError}
+            </div>}
+
           <form onSubmit={handleSubmit} className="ea-form-body">
             <div className="ea-form-group">
               <label className="ea-label">Código de Caravana / ID Animal</label>
               <div className="ea-input-container">
                 <Tag className="ea-input-icon" />
-                <input 
-                  type="text" 
-                  className="ea-text-input" 
+                <input
+                  type="text"
+                  className="ea-text-input"
                   placeholder="Ej. #AR-4892"
                   value={caravanaInput}
                   onChange={(e) => setCaravanaInput(e.target.value)}
@@ -79,7 +104,7 @@ const EstadoAnimales = () => {
               <label className="ea-label">Nuevo Estado del Animal</label>
               <div className="ea-select-container">
                 <ClipboardList className="ea-input-icon" />
-                <select 
+                <select
                   className="ea-select-input"
                   value={nuevoEstado}
                   onChange={(e) => setNuevoEstado(e.target.value)}
@@ -95,7 +120,7 @@ const EstadoAnimales = () => {
 
             <div className="ea-form-group">
               <label className="ea-label">Detalles / Motivo (Opcional)</label>
-              <textarea 
+              <textarea
                 className="ea-textarea-input"
                 placeholder="Ingrese observaciones clínicas o logísticas..."
                 value={observacion}
@@ -104,8 +129,8 @@ const EstadoAnimales = () => {
               ></textarea>
             </div>
 
-            <button type="submit" className="ea-btn-submit-main">
-              <span>ACTUALIZAR ESTADO</span>
+            <button type="submit" className="ea-btn-submit-main" disabled={loading}>
+              <span>{loading ? 'PROCESANDO...' : 'ACTUALIZAR ESTADO'}</span>
               <ArrowRight className="ea-icon-sm" />
             </button>
           </form>
