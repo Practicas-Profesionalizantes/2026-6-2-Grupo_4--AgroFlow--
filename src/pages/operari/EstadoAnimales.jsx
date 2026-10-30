@@ -91,10 +91,12 @@ const EstadoAnimales = () => {
                 <Tag className="ea-input-icon" />
                 <input
                   type="text"
-                  className="ea-text-input"
-                  placeholder="Ej. #AR-4892"
+                  className="al-text-input"
+                  placeholder="Ej. RFID-A001"
                   value={caravanaInput}
                   onChange={(e) => setCaravanaInput(e.target.value)}
+                  onBlur={(e) => buscarPesoAnimal(e.target.value)}
+                  list="rfid-options"
                   required
                 />
               </div>

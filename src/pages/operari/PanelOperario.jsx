@@ -1,19 +1,95 @@
-import React from 'react';
-import { 
-  Footprints, 
-  ClipboardList, 
-  Truck, 
-  CheckSquare, 
-  RotateCcw, 
-  ArrowRight, 
+import React, { useState, useEffect } from 'react';
+import {
+  Footprints,
+  ClipboardList,
+  Truck,
+  CheckSquare,
+  RotateCcw,
+  ArrowRight,
   RefreshCw,
   Package,
   FileText,
   Clock
 } from 'lucide-react';
+import { obtenerTodosLosAnimales, obtenerViajesActivos } from '../../services/animalesService';
 import '../../styles/PanelOperario.css';
 
 const PanelOperario = () => {
+  const [animales, setAnimales] = useState([]);
+  const [viajesActivos, setViajesActivos] = useState([]);
+  const [actividadesHoy, setActividadesHoy] = useState([]);
+  const [cargando, setCargando] = useState(true);
+
+  // 2. Obtención de la sesión del operario actual
+  const usuarioLogueado = JSON.parse(localStorage.getItem('usuario')) || {};
+  const operarioId = usuarioLogueado.id;
+
+  // 3. Llamada a la API al cargar el componente
+  useEffect(() => {
+    const cargarDatosPanel = async () => {
+      try {
+        setCargando(true);
+        const listaAnimales = await obtenerTodosLosAnimales();
+        const listaViajes = await obtenerViajesActivos('Entregado'); // Filtra por el estado correspondiente
+
+        setAnimales(listaAnimales);
+        setViajesActivos(listaViajes);
+      } catch (error) {
+        console.error("Error al cargar datos del backend:", error);
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    cargarDatosPanel();
+  }, []);
+
+  // 4. Mapeo y contadores dinámicos sincronizados con phpMyAdmin
+  const totalCabezas = animales.filter(a => a.estado !== 'Muerto' && a.estado !== 'MUERTO').length;
+
+  // 1. Filtramos todos los animales que están vivos
+  const animalesVivos = animales.filter(a => a.estado !== 'Muerto' && a.estado !== 'MUERTO');
+
+  // 2. IMPRIMIMOS EN CONSOLA: Abre la consola del navegador (F12) para ver cómo se llama el campo del lote
+  console.log("REVISAR ESTO -> Estructura del primer animal recibido:", animales[0]);
+
+  // 3. Filtro adaptativo: Si no detecta 'agrupamiento_id' o 'agrupamientoId', usamos una propiedad alternativa para identificar al Hereford sin lote
+  const porAgrupar = animalesVivos.filter(a => {
+    // 1. Si el backend envía la relación como un objeto (ej: agrupamiento: null o lote: null)
+    if (a.hasOwnProperty('agrupamiento') && !a.agrupamiento) return true;
+    if (a.hasOwnProperty('lote') && !a.lote) return true;
+
+    // 2. Si el objeto existe pero evaluamos su ID interno (ej: agrupamiento.id)
+    if (a.agrupamiento && typeof a.agrupamiento === 'object') return !a.agrupamiento.id;
+    if (a.lote && typeof a.lote === 'object') return !a.lote.id;
+
+    // 3. Si viene como un campo plano (agrupamientoId, agrupamiento_id, loteId, lote_id)
+    const idDelLote = a.agrupamientoId ?? a.agrupamiento_id ?? a.loteId ?? a.lote_id;
+
+    // Si el campo existe en el JSON, es sin lote si vale null, 0 o strings equivalentes
+    if (idDelLote !== undefined) {
+      return idDelLote === null || idDelLote === 0 || idDelLote === '0' || idDelLote === 'null';
+    }
+
+    // 4. Si el JSON no tiene ninguna propiedad de lote/agrupamiento, asumimos que no está agrupado
+    return true;
+  }).length;
+
+
+
+
+  const activos = animales.filter(a => a.estado === 'Activo' || a.estado === 'ACTIVO').length;
+  const enEnvio = animales.filter(a => a.estado === 'En Envío' || a.estado === 'EN_ENVIO' || a.estado === 'Vendido').length;
+  const fallecidos = animales.filter(a => a.estado === 'Fallecido' || a.estado === 'FALLECIDO' || a.estado === 'Muerto' || a.estado === 'MUERTO').length;
+  const observacion = animales.filter(a => a.estado === 'Observación' || a.estado === 'Baja' || a.estado === 'Enfermo').length;
+
+
+
+  // 5. Pantalla de carga preventiva antes de renderizar la interfaz
+  if (cargando) {
+    return <div className="po-loading" style={{ padding: '2rem', textAlign: 'center' }}>Cargando panel de control...</div>;
+  }
+
   return (
     <div className="po-container">
       {/* Header del Panel */}
@@ -40,12 +116,12 @@ const PanelOperario = () => {
             <span className="po-card-title">Animales por Agrupar</span>
           </div>
           <h2 className="po-card-value">
-            30 <span className="po-card-unit">cabezas</span>
+            {porAgrupar} <span className="po-card-unit">cabezas</span>
           </h2>
           <div className="po-card-footer-link">
-            <a href="#traslado" className="po-link">
+            <a href="#" className="po-link">
               <ArrowRight className="po-link-icon po-text-amber" />
-              <span>Pendientes de traslado al Corral #3</span>
+              <span>Sin lote asignado en el sistema</span>
             </a>
           </div>
         </div>
@@ -60,13 +136,13 @@ const PanelOperario = () => {
             <span className="po-card-title">Estado del Ganado</span>
           </div>
           <h2 className="po-card-value">
-            1.200 <span className="po-card-unit">cabezas</span>
+            {totalCabezas} <span className="po-card-unit">cabezas</span>
           </h2>
-          <span className="po-active-label">Activos</span>
+          <span className="po-active-label">{activos} Activos</span>
           <div className="po-tags-group">
-            <span className="po-mini-tag po-tag-envio">2 En Envío</span>
-            <span className="po-mini-tag po-tag-fallecido">1 Fallecido</span>
-            <span className="po-mini-tag po-tag-obs">12 Observación</span>
+            <span className="po-mini-tag po-tag-envio">{enEnvio} En Envío</span>
+            <span className="po-mini-tag po-tag-fallecido">{fallecidos} Fallecido</span>
+            <span className="po-mini-tag po-tag-obs">{observacion} Observación</span>
           </div>
         </div>
 
@@ -80,12 +156,16 @@ const PanelOperario = () => {
             <span className="po-card-title">Camión en Andén</span>
           </div>
           <h2 className="po-card-value">
-            1 <span className="po-card-unit">unidad</span>
+            {viajesActivos.length} <span className="po-card-unit">{viajesActivos.length === 1 ? 'unidad' : 'unidades'}</span>
           </h2>
           <div className="po-card-footer-link">
             <a href="#transp" className="po-link">
               <Truck className="po-link-icon po-text-navy" />
-              <span>Transp. Don Pedro • Pate...</span>
+              <span>
+                {viajesActivos.length > 0
+                  ? `${viajesActivos[0].transporte || 'En viaje'} • ${viajesActivos[0].patente || ''}`
+                  : 'Sin camiones activos'}
+              </span>
             </a>
           </div>
         </div>
