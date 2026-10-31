@@ -29,20 +29,65 @@ const PanelOperario = () => {
     const cargarDatosPanel = async () => {
       try {
         setCargando(true);
-        const listaAnimales = await obtenerTodosLosAnimales();
-        const listaViajes = await obtenerViajesActivos('Entregado'); // Filtra por el estado correspondiente
 
-        setAnimales(listaAnimales);
-        setViajesActivos(listaViajes);
+        // 1. Carga segura de animales
+        try {
+          const listaAnimales = await obtenerTodosLosAnimales();
+          if (listaAnimales) setAnimales(listaAnimales);
+        } catch (errAnim) {
+          console.error("Error individual al cargar animales:", errAnim);
+        }
+
+        // 2. Carga segura de viajes activos
+        try {
+          const listaViajes = await obtenerViajesActivos('Entregado');
+          if (listaViajes) setViajesActivos(listaViajes);
+        } catch (errViajes) {
+          console.error("Error individual al cargar viajes:", errViajes);
+        }
+
+        // 3. Carga de auditoría enviando el operarioId como adminId y usuarioId para que se audite a sí mismo
+        try {
+          // Respetamos la firma exacta de tu service frontend: primero adminId, segundo usuarioId
+          const historialLogs = await obtenerAuditoriaDeUsuario(operarioId, operarioId) || [];
+
+          // Obtenemos la fecha de hoy en formato clásico de base de datos (YYYY-MM-DD)
+          const hoy = new Date();
+          const yyyy = hoy.getFullYear();
+          const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+          const dd = String(hoy.getDate()).padStart(2, '0');
+          const fechaHoyBD = `${yyyy}-${mm}-${dd}`; // Resultado: "2026-10-30"
+
+          // Filtramos de forma directa buscando el texto de la fecha dentro de la columna de tu base de datos
+          const logsDeHoy = historialLogs.filter(log => {
+            const campoFecha = log.fecha_hora || log.fechaHora || log.fecha;
+            if (!campoFecha) return false;
+
+            // Al hacer include de "2026-10-30", machecará de forma exacta los registros de tu phpMyAdmin
+            return campoFecha.toString().includes(fechaHoyBD);
+          });
+
+          setActividadesHoy(logsDeHoy);
+        } catch (errAuditoria) {
+
+          console.error("Error al obtener las actividades del operario logueado:", errAuditoria);
+          setActividadesHoy([]);
+        }
+
+
+
       } catch (error) {
-        console.error("Error al cargar datos del backend:", error);
+        console.error("Error general en el panel:", error);
       } finally {
         setCargando(false);
       }
     };
 
-    cargarDatosPanel();
-  }, []);
+    if (operarioId) {
+      cargarDatosPanel();
+    }
+  }, [operarioId]);
+
 
   // 4. Mapeo y contadores dinámicos sincronizados con phpMyAdmin
   const totalCabezas = animales.filter(a => a.estado !== 'Muerto' && a.estado !== 'MUERTO').length;
@@ -170,23 +215,6 @@ const PanelOperario = () => {
           </div>
         </div>
 
-        {/* Card 4 */}
-        <div className="po-card">
-          <span className="po-tag po-tag-hoy">Hoy</span>
-          <div className="po-card-header">
-            <div className="po-icon-box po-bg-slate">
-              <CheckSquare className="po-icon po-text-slate" />
-            </div>
-            <span className="po-card-title">Registros Guardados</span>
-          </div>
-          <h2 className="po-card-value">
-            14 <span className="po-card-unit">fichas</span>
-          </h2>
-          <div className="po-sync-info">
-            <RefreshCw className="po-sync-icon" />
-            <span>Última sincronización: hace 8 min</span>
-          </div>
-        </div>
       </main>
 
       {/* Sección Inferior: 2 Columnas (Instrucciones e Historial) */}
@@ -238,59 +266,6 @@ const PanelOperario = () => {
               <span>Ver todas las instrucciones del supervisor</span>
               <ArrowRight className="po-footer-arrow" />
             </a>
-          </div>
-        </div>
-
-        {/* Columna Derecha: Últimas Actualizaciones */}
-        <div className="po-bottom-card">
-          <div>
-            <div className="po-bottom-card-header">
-              <div className="po-bottom-title-wrapper">
-                <Clock className="po-bottom-header-icon" />
-                <h3 className="po-bottom-title">Últimas Actualizaciones de Estado y Registros</h3>
-              </div>
-              <span className="po-badge-actividad">Actividad de hoy</span>
-            </div>
-
-            {/* Log item 1 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-blue">14:10 hs</span>
-                <span className="po-status-envio">En Envío</span>
-              </div>
-              <p className="po-sub-title">ID #4821 registrado como En Envío</p>
-              <p className="po-sub-desc">Transporte Lote L-204</p>
-            </div>
-
-            {/* Log item 2 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-blue">13:10 hs</span>
-                <span className="po-status-despachada">Despachada</span>
-              </div>
-              <p className="po-sub-title">Carga confirmada en Camión AB123CD</p>
-              <p className="po-sub-desc">32 animales embarcados exitosamente hacia Frigorífico Sur.</p>
-            </div>
-
-            {/* Log item 3 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-blue">12:05 hs</span>
-                <span className="po-status-fallecido">Fallecido</span>
-              </div>
-              <p className="po-sub-title">Novillo ID #3910 registrado como Fallecido</p>
-              <p className="po-sub-desc">Reporte de baja en Corral #2</p>
-            </div>
-
-            {/* Log item 4 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-blue">10:50 hs</span>
-                <span className="po-status-activa">Activa</span>
-              </div>
-              <p className="po-sub-title">Movimiento y verificación de 15 animales activos</p>
-              <p className="po-sub-desc">Traslado completado desde piquete 2 al corral de reposo.</p>
-            </div>
           </div>
         </div>
       </section>
