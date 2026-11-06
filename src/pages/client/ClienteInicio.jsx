@@ -1,58 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Search, 
-  ShieldCheck, 
-  MessageSquareText, 
   ArrowLeft, 
   Scale, 
-  MapPin, 
-  Tag,
-  X,
-  ExternalLink
+  MapPin,
+  CheckCircle2,
+  ShoppingCart
 } from 'lucide-react';
+import { clienteService } from '../../services/clienteService';
 import '../../styles/ClienteInicio.css';
 
 const ClienteInicio = () => {
+  const clienteId = 3; 
+
   const [busqueda, setBusqueda] = useState('');
   const [animalSeleccionado, setAnimalSeleccionado] = useState(null);
-  const [certificadoModal, setCertificadoModal] = useState(null);
+  const [catalogoAnimales, setCatalogoAnimales] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Estado para manejar cuando el pedido ya fue enviado
+  const [pedidoEnCurso, setPedidoEnCurso] = useState(false);
 
-  // Datos simulados de vacas/lotes en venta estilo Mercado Libre
-  const catalogoAnimales = [
-    {
-      id: 'LOTE-401',
-      titulo: 'Lote Toros Hereford Seleccionados (10 Cabezas)',
-      precio: '$4.500.000 ARS',
-      pesoPromedio: '480 kg',
-      categoria: 'Toros Reproductores',
-      origen: 'Estancia El Retiro, Buenos Aires',
-      imagen: 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=800&q=80',
-      certificadoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
-      descripcion: 'Lote de excelente genética Hereford, ideales para reproducción. Vacunación al día, aptos para traslado inmediato con DTE de Senasa emitido.'
-    },
-    {
-      id: 'LOTE-402',
-      titulo: 'Novillos Angus para Faena (15 Cabezas)',
-      precio: '$6.200.000 ARS',
-      pesoPromedio: '430 kg',
-      categoria: 'Novillos Gordos',
-      origen: 'Estancia La Constancia, Córdoba',
-      imagen: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
-      certificadoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
-      descripcion: 'Novillos terminados a grano, excelente rendimiento de gancho estimado en 58%. Documentación sanitaria completa disponible.'
-    },
-    {
-      id: 'LOTE-403',
-      titulo: 'Vaquillonas Terneras Destete (20 Cabezas)',
-      precio: '$5.800.000 ARS',
-      pesoPromedio: '260 kg',
-      categoria: 'Recría / Invernada',
-      origen: 'Campo San José, Santa Fe',
-      imagen: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80',
-      certificadoUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
-      descripcion: 'Terneras Angus y Hereford destetadas, con buen desarrollo óseo y sanitarios completos (Brucelosis y Carbunclo negativos).'
+  const obtenerImagenPorDefecto = (especie) => {
+    const esp = (especie || '').toLowerCase();
+    if (esp.includes('toro')) {
+      return 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=800&q=80';
+    } else if (esp.includes('novillo')) {
+      return 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80';
     }
-  ];
+    return 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80';
+  };
+
+  useEffect(() => {
+    clienteService.listarAnimales()
+      .then((data) => {
+        const animalesActivos = data.filter(a => (a.estado || '').toLowerCase() === 'activo');
+        const animalesMapeados = data.map(a => ({
+          id: a.id,
+          idString: `LOTE-${a.id}`,
+          titulo: `${a.especie || 'Lote de Ganado'} - Raza: ${a.raza || 'General'}`,
+          precio: a.peso ? (a.peso * 10000) : 5000000,
+          precioFormateado: `$${(a.peso ? a.peso * 10000 : 5000000).toLocaleString()} ARS`,
+          pesoPromedio: `${a.peso || 400} kg`,
+          categoria: a.estado || 'Activo',
+          origen: a.agrupamiento ? a.agrupamiento.nombreLote : 'Estancia AgroFlow',
+          imagen: obtenerImagenPorDefecto(a.especie),
+          descripcion: `Animal caravana RFID: ${a.codigoRfid || 'N/A'}. Edad: ${a.edad || 'N/D'} años. Sanidad y trazabilidad al día bajo normas de control.`,
+          raw: a
+        }));
+        
+        setCatalogoAnimales(animalesMapeados);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error al cargar el catálogo de animales:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const filtrados = catalogoAnimales.filter(item => 
     item.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -60,14 +64,24 @@ const ClienteInicio = () => {
     item.origen.toLowerCase().includes(busqueda.toLowerCase())
   );
 
+  const handleComprar = async () => {
+    try {
+      // Envía la compra/oferta al backend con el precio predeterminado del animal
+      await clienteService.crearOferta(clienteId, animalSeleccionado.precio, animalSeleccionado.raw);
+      setPedidoEnCurso(true);
+    } catch (error) {
+      console.error("Error al procesar la compra:", error);
+      alert("No se pudo registrar el pedido en el servidor.");
+    }
+  };
+
   return (
     <div className="cli-container">
       <div className="cli-wrapper">
         
-        {/* VISTA 1: DETALLE DE PRODUCTO (TIPO MERCADO LIBRE) */}
         {animalSeleccionado ? (
           <div className="cli-detail-view">
-            <button className="cli-btn-back" onClick={() => setAnimalSeleccionado(null)}>
+            <button className="cli-btn-back" onClick={() => { setAnimalSeleccionado(null); setPedidoEnCurso(false); }}>
               <ArrowLeft className="cli-icon-sm" /> Volver al catálogo
             </button>
 
@@ -79,13 +93,12 @@ const ClienteInicio = () => {
               <div className="cli-detail-info">
                 <span className="cli-badge-cat">{animalSeleccionado.categoria}</span>
                 <h2 className="cli-detail-title">{animalSeleccionado.titulo}</h2>
-                <div className="cli-detail-price">{animalSeleccionado.precio}</div>
-                <p className="cli-detail-subtext">Precio referencial sujeto a negociación directa.</p>
+                <div className="cli-detail-price">{animalSeleccionado.precioFormateado}</div>
 
                 <div className="cli-specs-box">
                   <div className="cli-spec-item">
                     <Scale className="cli-icon-xs text-primary" />
-                    <span>Peso promedio: <strong>{animalSeleccionado.pesoPromedio}</strong></span>
+                    <span>Peso: <strong>{animalSeleccionado.pesoPromedio}</strong></span>
                   </div>
                   <div className="cli-spec-item">
                     <MapPin className="cli-icon-xs text-primary" />
@@ -93,36 +106,54 @@ const ClienteInicio = () => {
                   </div>
                 </div>
 
-                <div className="cli-actions-box">
-                  <button 
-                    className="cli-btn-cert"
-                    onClick={() => setCertificadoModal(animalSeleccionado.certificadoUrl)}
-                  >
-                    <ShieldCheck className="cli-icon-sm" /> Ver Certificado Sanitario (DTE)
-                  </button>
-                  <button className="cli-btn-chat" onClick={() => alert('Redirigiendo al chat con el Administrador/Supervisor...')}>
-                    <MessageSquareText className="cli-icon-sm" /> Consultar Precio por Chat
-                  </button>
+                {/* BOTÓN DE COMPRA DIRECTA */}
+                <div className="cli-actions-box" style={{ marginTop: '20px' }}>
+                  {pedidoEnCurso ? (
+                    <div style={{ padding: '15px', backgroundColor: '#e6f4ea', borderRadius: '8px', border: '1px solid #34a853', color: '#137333', textAlign: 'center' }}>
+                      <CheckCircle2 style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
+                      <strong>¡Pedido en curso!</strong> Su solicitud de compra ha sido enviada con éxito y está pendiente de aprobación.
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={handleComprar}
+                      style={{ 
+                        width: '100%', 
+                        backgroundColor: '#10b981', 
+                        color: 'white', 
+                        border: 'none', 
+                        padding: '14px', 
+                        borderRadius: '8px', 
+                        cursor: 'pointer', 
+                        fontWeight: 'bold',
+                        fontSize: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px',
+                        boxShadow: '0 4px 6px rgba(16, 185, 129, 0.2)'
+                      }}
+                    >
+                      <ShoppingCart size={20} /> Comprar / Solicitar Pedido
+                    </button>
+                  )}
                 </div>
 
-                <div className="cli-description-section">
-                  <h4>Descripción del Lote</h4>
+                <div className="cli-description-section" style={{ marginTop: '20px' }}>
+                  <h4>Descripción del Animal / Lote</h4>
                   <p>{animalSeleccionado.descripcion}</p>
                 </div>
               </div>
             </div>
           </div>
         ) : (
-          /* VISTA 2: CATÁLOGO GENERAL (ESTILO E-COMMERCE) */
           <>
             <div className="cli-header">
               <div>
-                <h2 className="cli-title">Catálogo de Ganado</h2>
-                <h3 className="cli-subtitle">Explore lotes disponibles y consulte condiciones directamente</h3>
+                <h2 className="cli-title">Catálogo de Ganado (AgroFlow)</h2>
+                <h3 className="cli-subtitle">Explore los lotes disponibles y realice su compra de forma directa</h3>
               </div>
             </div>
 
-            {/* BARRA DE BÚSQUEDA */}
             <div className="cli-toolbar">
               <div className="cli-search-container">
                 <Search className="cli-search-icon" />
@@ -136,49 +167,39 @@ const ClienteInicio = () => {
               </div>
             </div>
 
-            {/* GRID DE PRODUCTOS */}
             <div className="cli-grid">
-              {filtrados.map((item) => (
-                <div 
-                  key={item.id} 
-                  className="cli-product-card"
-                  onClick={() => setAnimalSeleccionado(item)}
-                >
-                  <div className="cli-product-img-box">
-                    <img src={item.imagen} alt={item.titulo} className="cli-product-img" />
-                    <span className="cli-card-badge">{item.categoria}</span>
-                  </div>
-                  <div className="cli-product-content">
-                    <span className="cli-product-id">#{item.id}</span>
-                    <h3 className="cli-product-title">{item.titulo}</h3>
-                    <div className="cli-product-price">{item.precio}</div>
-                    <div className="cli-product-footer">
-                      <span className="cli-product-weight"><Scale className="cli-icon-xs" /> {item.pesoPromedio}</span>
-                      <span className="cli-product-link">Ver detalle →</span>
+              {loading ? (
+                <p style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#666' }}>Cargando animales desde la base de datos...</p>
+              ) : filtrados.length === 0 ? (
+                <p style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#666' }}>No se encontraron animales registrados.</p>
+              ) : (
+                filtrados.map((item) => (
+                  <div 
+                    key={item.id} 
+                    className="cli-product-card"
+                    onClick={() => { setAnimalSeleccionado(item); setPedidoEnCurso(false); }}
+                  >
+                    <div className="cli-product-img-box">
+                      <img src={item.imagen} alt={item.titulo} className="cli-product-img" />
+                      <span className="cli-card-badge">{item.categoria}</span>
+                    </div>
+                    <div className="cli-product-content">
+                      <span className="cli-product-id">#{item.idString}</span>
+                      <h3 className="cli-product-title">{item.titulo}</h3>
+                      <div className="cli-product-price">{item.precioFormateado}</div>
+                      <div className="cli-product-footer">
+                        <span className="cli-product-weight"><Scale className="cli-icon-xs" /> {item.pesoPromedio}</span>
+                        <span className="cli-product-link">Ver detalle →</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </>
         )}
 
       </div>
-
-      {/* MODAL PARA VER EL CERTIFICADO */}
-      {certificadoModal && (
-        <div className="cli-modal-overlay" onClick={() => setCertificadoModal(null)}>
-          <div className="cli-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="cli-modal-close" onClick={() => setCertificadoModal(null)}>
-              <X className="cli-icon-sm" />
-            </button>
-            <h3 className="cli-modal-title">Certificado Sanitario Oficial (Senasa)</h3>
-            <div className="cli-modal-img-container">
-              <img src={certificadoModal} alt="Certificado Sanitario" className="cli-modal-img" />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

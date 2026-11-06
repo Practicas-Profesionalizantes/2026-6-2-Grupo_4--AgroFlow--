@@ -136,7 +136,7 @@ const ArmadoLotes = () => {
             <div className="al-form-group">
               <label className="al-label">Código de Caravana / ID Animal</label>
               <div className="al-input-container">
-                <Tag className="al-input-icon" />
+                <Tag className="al-input-icon etiqueta" />
                 <input
                   type="text"
                   className="al-text-input"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Boxes, 
   Layers, 
@@ -8,33 +8,76 @@ import {
   CheckCircle, 
   AlertTriangle 
 } from 'lucide-react';
+import { inventarioService } from '../../services/inventarioService';
 import '../../styles/Inventario.css';
 
 const Inventario = () => {
-  const [pestanaActiva, setPestanaActiva] = useState('lotes'); // 'lotes' | 'estados' | 'razas'
-  const [busqueda, setBusqueda] = useState('');
+  // ID del supervisor/usuario actual logueado
+  const supervisorId = 2;
 
-  // 1. Datos por Lotes (Tabla agrupamiento / animales)
-  const datosLotes = [
-    { id: 1, lote: 'Lote L-204 (Faena / Exportación)', cantidad: 12, pesoPromedio: '436.2 kg', destino: 'Frigorífico Sur', estado: 'Activo' },
-    { id: 2, lote: 'Corral #1 (Recría Liviana)', cantidad: 25, pesoPromedio: '385.0 kg', destino: 'Recría Predio', estado: 'Activo' },
-    { id: 3, lote: 'Corral #2 (Observación Sanitaria)', cantidad: 3, pesoPromedio: '410.5 kg', destino: 'Sanidad', estado: 'Revisión' },
-    { id: 4, lote: 'Lote L-203 (Consumo Interno)', cantidad: 15, pesoPromedio: '425.0 kg', destino: 'Despacho Local', estado: 'Cerrado' },
-  ];
+  const [pestanaActiva, setPestanaActiva] = useState('lotes');
+  const [lotes, setLotes] = useState([]);
+  const [animales, setAnimales] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 2. Datos por Estado Actual (Tabla animales.estado)
+  // Cargar datos reales desde el backend al montar el componente
+  useEffect(() => {
+    const cargarDatosInventario = async () => {
+      try {
+        const [dataLotes, dataAnimales] = await Promise.all([
+          inventarioService.obtenerLotes(supervisorId),
+          inventarioService.obtenerAnimales()
+        ]);
+        setLotes(dataLotes);
+        setAnimales(dataAnimales);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error al cargar el inventario:", error);
+        setLoading(false);
+      }
+    };
+
+    cargarDatosInventario();
+  }, [supervisorId]);
+
+  // Procesar dinámicamente los lotes calculando cantidad de animales y peso promedio
+  const datosLotesProcesados = lotes.map(lote => {
+    const animalesDelLote = animales.filter(a => a.agrupamiento && a.agrupamiento.id === lote.id);
+    const cantidad = animalesDelLote.length;
+    
+    let pesoTotal = 0;
+    animalesDelLote.forEach(a => {
+      pesoTotal += Number(a.peso || 0);
+    });
+    const promedioPeso = cantidad > 0 ? (pesoTotal / cantidad).toFixed(1) : '0.0';
+
+    return {
+      id: lote.id,
+      nombre: lote.nombreLote || 'Sin Nombre',
+      codigoLote: lote.lote || 'N/A',
+      cantidad: cantidad,
+      pesoPromedio: `${promedioPeso} kg`,
+      estado: 'Activo'
+    };
+  });
+
+  // Procesar dinámicamente los estados de los animales basados en la BD
+  const totalAnimales = animales.length;
+  
+  const contarPorEstado = (estadoBuscado) => {
+    return animales.filter(a => (a.estado || '').toLowerCase() === estadoBuscado.toLowerCase()).length;
+  };
+
+  const cantActivos = contarPorEstado('Activo');
+  const cantEnfermos = contarPorEstado('Enfermo');
+  const cantVendidos = contarPorEstado('Vendido');
+  const cantMuertos = contarPorEstado('Muerto');
+
   const datosEstados = [
-    { estado: 'Activos (En Predio)', cantidad: 55, porcentaje: '84.6%', color: 'success' },
-    { estado: 'Enfermos / En Observación', cantidad: 3, porcentaje: '4.6%', color: 'warning' },
-    { estado: 'Vendidos / Despachados', cantidad: 7, porcentaje: '10.8%', color: 'primary' },
-    { estado: 'Muertos / Bajas', cantidad: 0, porcentaje: '0.0%', color: 'danger' },
-  ];
-
-  // 3. Datos por Raza y Peso
-  const datosRazas = [
-    { raza: 'Brangus Negro', cabezas: 35, pesoPromedio: '432.0 kg', rango: '> 420 kg (Apto Exportación)' },
-    { raza: 'Braford', cabezas: 20, pesoPromedio: '395.5 kg', rango: '380 - 420 kg (Recría)' },
-    { raza: 'Hereford', cabezas: 5, pesoPromedio: '410.0 kg', rango: '400 - 420 kg' },
+    { estado: 'Activos (En Predio)', cantidad: cantActivos, color: 'success' },
+    { estado: 'Enfermos / En Observación', cantidad: cantEnfermos, color: 'warning' },
+    { estado: 'Vendidos / Despachados', cantidad: cantVendidos, color: 'primary' },
+    { estado: 'Muertos / Bajas', cantidad: cantMuertos, color: 'danger' },
   ];
 
   return (
@@ -45,7 +88,7 @@ const Inventario = () => {
         <div className="inv-header">
           <div>
             <h2 className="inv-title">Inventario de Ganado</h2>
-            <h3 className="inv-subtitle">Control integral del rodeo, distribución por lotes, estados y clasificación</h3>
+            <h3 className="inv-subtitle">Control integral del rodeo, distribución por lotes, estados y clasificación en tiempo real</h3>
           </div>
         </div>
 
@@ -63,132 +106,101 @@ const Inventario = () => {
           >
             <Activity className="inv-icon-sm" /> Estado Actual del Rodeo
           </button>
-          <button 
-            className={`inv-tab-btn ${pestanaActiva === 'razas' ? 'active' : ''}`}
-            onClick={() => setPestanaActiva('razas')}
-          >
-            <Scale className="inv-icon-sm" /> Clasificación por Raza y Peso
-          </button>
         </div>
 
         {/* CONTENIDO SEGÚN PESTAÑA */}
         <div className="inv-card">
           
-          {/* VISTA 1: LOTES */}
-          {pestanaActiva === 'lotes' && (
-            <div className="inv-tab-content">
-              <div className="inv-table-header">
-                <h3 className="inv-card-section-title">Distribución de Animales por Lote Operativo</h3>
-                <span className="inv-badge-count">Total en predio: 55 cabezas</span>
-              </div>
-              <div className="inv-table-responsive">
-                <table className="inv-table">
-                  <thead>
-                    <tr>
-                      <th>ID Lote</th>
-                      <th>Nombre del Lote / Destino</th>
-                      <th>Cabezas</th>
-                      <th>Peso Promedio</th>
-                      <th>Destino Logístico</th>
-                      <th className="text-right">Estado Operativo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {datosLotes.map((lote) => (
-                      <tr key={lote.id}>
-                        <td className="inv-td-id">#L-{200 + lote.id}</td>
-                        <td><strong>{lote.lote}</strong></td>
-                        <td className="font-semibold">{lote.cantidad} cabezas</td>
-                        <td>{lote.pesoPromedio}</td>
-                        <td>{lote.destino}</td>
-                        <td className="text-right">
-                          <span className={`inv-status-pill ${lote.estado === 'Activo' ? 'active' : 'review'}`}>
-                            {lote.estado}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+          {loading ? (
+            <p style={{ textAlign: 'center', padding: '40px', color: '#666' }}>Cargando inventario desde el servidor...</p>
+          ) : (
+            <>
+              {/* VISTA 1: LOTES */}
+              {pestanaActiva === 'lotes' && (
+                <div className="inv-tab-content">
+                  <div className="inv-table-header">
+                    <h3 className="inv-card-section-title">Distribución de Animales por Lote Operativo</h3>
+                    <span className="inv-badge-count">Total general en animales: {totalAnimales} cabezas</span>
+                  </div>
+                  <div className="inv-table-responsive">
+                    <table className="inv-table">
+                      <thead>
+                        <tr>
+                          <th>ID Lote</th>
+                          <th>Nombre del Lote</th>
+                          <th>Código Lote</th>
+                          <th>Cabezas Asignadas</th>
+                          <th>Peso Promedio</th>
+                          <th className="text-right">Estado Operativo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {datosLotesProcesados.length === 0 ? (
+                          <tr>
+                            <td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: '#666' }}>No hay lotes registrados.</td>
+                          </tr>
+                        ) : (
+                          datosLotesProcesados.map((lote) => (
+                            <tr key={lote.id}>
+                              <td className="inv-td-id">#L-{lote.id}</td>
+                              <td><strong>{lote.nombre}</strong></td>
+                              <td>{lote.codigoLote}</td>
+                              <td className="font-semibold">{lote.cantidad} cabezas</td>
+                              <td>{lote.pesoPromedio}</td>
+                              <td className="text-right">
+                                <span className="inv-status-pill active">
+                                  {lote.estado}
+                                </span>
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
 
-          {/* VISTA 2: ESTADOS */}
-          {pestanaActiva === 'estados' && (
-            <div className="inv-tab-content">
-              <div className="inv-table-header">
-                <h3 className="inv-card-section-title">Resumen por Estado Actual de Animales</h3>
-                <span className="inv-badge-count">Base total analizada: 65 registros</span>
-              </div>
-              <div className="inv-table-responsive">
-                <table className="inv-table">
-                  <thead>
-                    <tr>
-                      <th>Estado en Sistema</th>
-                      <th>Cantidad de Cabezas</th>
-                      <th>Porcentaje del Total</th>
-                      <th className="text-right">Indicador</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {datosEstados.map((est, idx) => (
-                      <tr key={idx}>
-                        <td><strong>{est.estado}</strong></td>
-                        <td className="font-semibold">{est.cantidad} cabezas</td>
-                        <td>{est.porcentaje}</td>
-                        <td className="text-right">
-                          <span className={`inv-state-pill ${est.color}`}>
-                            {est.color === 'success' && '✔ Normal'}
-                            {est.color === 'warning' && '⚠ Requiere Atención'}
-                            {est.color === 'primary' && '🚚 Despachado'}
-                            {est.color === 'danger' && '✕ Sin Novedad'}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* VISTA 3: RAZA Y PESO */}
-          {pestanaActiva === 'razas' && (
-            <div className="inv-tab-content">
-              <div className="inv-table-header">
-                <h3 className="inv-card-section-title">Homogeneidad del Rodeo por Raza y Rangos</h3>
-                <span className="inv-badge-count">Clasificación zootécnica</span>
-              </div>
-              <div className="inv-table-responsive">
-                <table className="inv-table">
-                  <thead>
-                    <tr>
-                      <th>Raza Registrada</th>
-                      <th>Cabezas Totales</th>
-                      <th>Peso Promedio</th>
-                      <th className="text-right">Rango Comercial / Destino</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {datosRazas.map((raz, idx) => (
-                      <tr key={idx}>
-                        <td><strong>{raz.raza}</strong></td>
-                        <td className="font-semibold">{raz.cabezas} cabezas</td>
-                        <td>{raz.pesoPromedio}</td>
-                        <td className="text-right">
-                          <span className="inv-unit-pill">{raz.rango}</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+              {/* VISTA 2: ESTADOS */}
+              {pestanaActiva === 'estados' && (
+                <div className="inv-tab-content">
+                  <div className="inv-table-header">
+                    <h3 className="inv-card-section-title">Resumen por Estado Actual de Animales</h3>
+                    <span className="inv-badge-count">Base total analizada: {totalAnimales} registros</span>
+                  </div>
+                  <div className="inv-table-responsive">
+                    <table className="inv-table">
+                      <thead>
+                        <tr>
+                          <th>Estado en Sistema</th>
+                          <th>Cantidad de Cabezas</th>
+                          <th className="text-right">Indicador</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {datosEstados.map((est, idx) => (
+                          <tr key={idx}>
+                            <td><strong>{est.estado}</strong></td>
+                            <td className="font-semibold">{est.cantidad} cabezas</td>
+                            <td className="text-right">
+                              <span className={`inv-state-pill ${est.color}`}>
+                                {est.color === 'success' && '✔ Normal'}
+                                {est.color === 'warning' && '⚠ Requiere Atención'}
+                                {est.color === 'primary' && '🚚 Despachado'}
+                                {est.color === 'danger' && '✕ Sin Novedad'}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
         </div>
-
       </div>
     </div>
   );

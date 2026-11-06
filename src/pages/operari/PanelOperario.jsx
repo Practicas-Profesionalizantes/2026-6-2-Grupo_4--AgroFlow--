@@ -216,59 +216,6 @@ const PanelOperario = () => {
         </div>
 
       </main>
-
-      {/* Sección Inferior: 2 Columnas (Instrucciones e Historial) */}
-      <section className="po-bottom-grid">
-        {/* Columna Izquierda: Instrucciones Pendientes */}
-        <div className="po-bottom-card">
-          <div>
-            <div className="po-bottom-card-header">
-              <div className="po-bottom-title-wrapper">
-                <ClipboardList className="po-bottom-header-icon" />
-                <h3 className="po-bottom-title">Instrucciones Pendientes del Supervisor</h3>
-              </div>
-              <span className="po-badge-nuevas">3 Nuevas</span>
-            </div>
-
-            {/* Sub-item 1 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-blue">14:45 hs</span>
-                <span className="po-badge-alta">Prioridad Alta</span>
-              </div>
-              <p className="po-sub-title">Enviar 15 Novillos al Corral de Agrupamiento #3</p>
-              <p className="po-sub-desc">Revisar caravana visual amarilla. Separar los más pesados.</p>
-            </div>
-
-            {/* Sub-item 2 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-blue">13:20 hs</span>
-                <span className="po-badge-media">Prioridad Media</span>
-              </div>
-              <p className="po-sub-title">Verificar caravanas electrónicas del Lote L-204 antes de pesaje</p>
-              <p className="po-sub-desc">Usar lector bastón Bluetooth #04. Chequear batería previa.</p>
-            </div>
-
-            {/* Sub-item 3 */}
-            <div className="po-sub-item">
-              <div className="po-sub-item-top">
-                <span className="po-time-gray">11:15 hs</span>
-                <span className="po-badge-completada">✓ Completada</span>
-              </div>
-              <p className="po-sub-title po-completed">Revisión de bebederos y manga en Corral-4B</p>
-              <p className="po-sub-desc po-green-text">Finalizado sin novedades de rotura o fuga de agua.</p>
-            </div>
-          </div>
-
-          <div className="po-bottom-footer">
-            <a href="#todas" className="po-footer-link">
-              <span>Ver todas las instrucciones del supervisor</span>
-              <ArrowRight className="po-footer-arrow" />
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

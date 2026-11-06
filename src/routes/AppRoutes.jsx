@@ -4,7 +4,6 @@ import Login from '../pages/principal/Login';
 import Register from '../pages/principal/Register';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import PanelAdmin from '../pages/administrador/PanelAdmin';
 import PanelOperario from '../pages/operari/PanelOperario';
 import ArmadoLotes from '../pages/operari/ArmadoLotes';
 import EstadoAnimales from '../pages/operari/EstadoAnimales';
@@ -12,13 +11,13 @@ import CargaCamiones from '../pages/operari/CargaCamiones';
 import PanelSupervisor from '../pages/superviso/PanelSupervisor';
 import Inventario from '../pages/superviso/Inventario';
 import RegistroActividades from '../pages/superviso/RegistroActividades';
-import Certificaciones from '../pages/superviso/Certificaciones';
+import GestionOfertas from '../pages/superviso/GestionOfertas';
 import ModuloOperario from '../pages/administrador/ModuloOperario';
 import ModuloSupervisor from '../pages/administrador/ModuloSupervisor';
 import GestionUsuarios from '../pages/administrador/GestionUsuarios';
+import RegistrarAnimal from '../pages/administrador/RegistrarAnimal';
 import ClienteInicio from '../pages/client/ClienteInicio';
 import ClienteResumen from '../pages/client/ClienteResumen';
-import Transporte from '../pages/client/Transporte';
 
 import {
   Home as HomeIcon,
@@ -31,12 +30,13 @@ import {
   History,
   FileCheck,
   Users,
+  PlusCircle,
   ShieldCheck
 } from 'lucide-react';
 
 const menuAdmin = [
-  { texto: "Panel Principal", ruta: "/admin", icono: <LayoutDashboard size={20} /> },
-  { texto: "Gestión de Usuarios", ruta: "/admin/usuarios", icono: <Users size={20} /> },
+  { texto: "Gestión de Usuarios", ruta: "/admin", icono: <Users size={20} /> },
+  { texto: "Registrar Animal", ruta: "/admin/registrar-animal", icono: <PlusCircle size={20} /> },
   { texto: "Módulo Operario", ruta: "/admin/operario", icono: <ClipboardList size={20} /> },
   { texto: "Módulo Supervisor", ruta: "/admin/supervisor", icono: <ShieldCheck size={20} /> }
 ];
@@ -51,13 +51,12 @@ const menuOperario = [
 const menuSupervisor = [
   { texto: "Inicio", ruta: "/supervisor", icono: <LayoutDashboard size={20} /> },
   { texto: "Inventario de Ganado", ruta: "/supervisor/inventario", icono: <Boxes size={20} /> },
-  { texto: "Registro Actividades", ruta: "/supervisor/actividades", icono: <History size={20} /> },
-  { texto: "Certificaciones", ruta: "/supervisor/certificaciones", icono: <FileCheck size={20} /> }
+  { texto: "Gestionar Ofertas", ruta: "/supervisor/ofertas", icono: <FileCheck size={20} /> },
+  { texto: "Registro Actividades", ruta: "/supervisor/actividades", icono: <History size={20} /> }
 ];
 
 const menuCliente = [
   { texto: "Catálogo de Ganado", ruta: "/cliente", icono: <Boxes size={20} /> },
-  { texto: "Seguimiento", ruta: "/cliente/tracker", icono: <Truck size={20} /> },
   { texto: "Resumen", ruta: "/cliente/resumen", icono: <ClipboardList size={20} /> }
 ];
 
@@ -101,8 +100,8 @@ function AppRoutes() {
         <Route path="/admin/*" element={
           <LayoutPrivado opcionesMenu={menuAdmin}>
             <Routes>
-              <Route path="/" element={<PanelAdmin />} />
-              <Route path="/usuarios" element={<GestionUsuarios />} />
+              <Route path="/" element={<GestionUsuarios />} />
+              <Route path="/registrar-animal" element={<RegistrarAnimal />} />
               <Route path="/operario" element={<ModuloOperario />} />
               <Route path="/supervisor" element={<ModuloSupervisor />} />
             </Routes>
@@ -125,8 +124,8 @@ function AppRoutes() {
             <Routes>
               <Route path="/" element={<PanelSupervisor />} />
               <Route path="/inventario" element={<Inventario />} />
+              <Route path="/ofertas" element={<GestionOfertas />} />
               <Route path="/actividades" element={<RegistroActividades />} />
-              <Route path="/certificaciones" element={<Certificaciones />} />
             </Routes>
           </LayoutPrivado>
         } />
@@ -135,7 +134,6 @@ function AppRoutes() {
           <LayoutPrivado opcionesMenu={menuCliente}>
             <Routes>
               <Route path="/" element={<ClienteInicio />} />
-              <Route path="/tracker" element={<Transporte />} />
               <Route path="/resumen" element={<ClienteResumen />} />
             </Routes>
           </LayoutPrivado>

@@ -88,7 +88,7 @@ const EstadoAnimales = () => {
             <div className="ea-form-group">
               <label className="ea-label">Código de Caravana / ID Animal</label>
               <div className="ea-input-container">
-                <Tag className="ea-input-icon" />
+                <Tag className="ea-input-icon etiqueta" />
                 <input
                   type="text"
                   className="al-text-input"

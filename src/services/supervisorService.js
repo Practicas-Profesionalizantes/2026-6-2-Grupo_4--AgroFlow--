@@ -1,20 +1,41 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/distribucion';
+const API_URL = 'http://localhost:8080/api';
 
-export const programarViajeDistribucion = async (datosViaje) => {
-  // El backend recibe los datos como RequestParam, por lo que usamos 'params' en axios
-  const response = await axios.post(`${API_BASE_URL}/despachar`, null, {
-    params: {
-      operarioId: datosViaje.operarioId, // Se puede pasar el mismo ID del supervisor o un operario asignado
-      supervisorId: datosViaje.supervisorId,
-      conductor: datosViaje.conductorNombre,
-      documento: datosViaje.conductorDocumento,
-      patenteCamion: datosViaje.patenteCamion,
-      patenteAcoplado: datosViaje.patenteAcoplado,
-      ruta: datosViaje.rutaAsignada,
-      coordenadasGps: datosViaje.coordenadasGps || '0,0' // Valor por defecto si no se ingresa GPS inicial
-    }
-  });
-  return response.data;
+export const supervisorService = {
+  obtenerActividades: async (usuarioConsultaId) => {
+    const response = await axios.get(`${API_URL}/actividades/auditoria`, {
+      params: { usuarioConsultaId }
+    });
+    return response.data;
+  },
+
+  obtenerAnimales: async () => {
+    const response = await axios.get(`${API_URL}/animales`);
+    return response.data;
+  },
+
+  obtenerLotes: async (usuarioId) => {
+    const response = await axios.get(`${API_URL}/agrupamientos`, {
+      params: { usuarioId }
+    });
+    return response.data;
+  },
+
+  // Obtener historial o negociaciones por animal (o puedes crear un endpoint general si prefieres)
+  obtenerNegociacionesAnimal: async (animalId) => {
+    const response = await axios.get(`${API_URL}/negociaciones/animal/${animalId}`);
+    return response.data;
+  },
+
+  // Responder a la oferta (Aceptar / Rechazar)
+  responderOferta: async (idNegociacion, supervisorId, nuevoEstado) => {
+    const response = await axios.put(`${API_URL}/negociaciones/responder/${idNegociacion}`, null, {
+      params: {
+        empleadoId: supervisorId,
+        nuevoEstado: nuevoEstado
+      }
+    });
+    return response.data;
+  }
 };

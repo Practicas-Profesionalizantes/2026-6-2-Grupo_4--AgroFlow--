@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PanelSupervisor from '../superviso/PanelSupervisor';
 import Inventario from '../superviso/Inventario';
 import RegistroActividades from '../superviso/RegistroActividades';
-import Certificaciones from '../superviso/Certificaciones';
 import '../../styles/ModuloContenedor.css';
 
 const ModuloSupervisor = () => {
@@ -14,7 +13,7 @@ const ModuloSupervisor = () => {
       <div className="mod-header">
         <div className="mod-title-group">
           <h2 className="mod-title">Módulo de Control y Supervisión</h2>
-          <span className="mod-subtitle">Acceso integral a auditoría, inventario y certificaciones</span>
+          <span className="mod-subtitle">Acceso integral a auditoría e inventario</span>
         </div>
 
         <div className="mod-tabs">
@@ -36,12 +35,6 @@ const ModuloSupervisor = () => {
           >
             Actividades
           </button>
-          <button 
-            className={`mod-tab-btn ${subVista === 'certificaciones' ? 'active' : ''}`}
-            onClick={() => setSubVista('certificaciones')}
-          >
-            Certificaciones
-          </button>
         </div>
       </div>
 
@@ -50,7 +43,6 @@ const ModuloSupervisor = () => {
         {subVista === 'inicio' && <PanelSupervisor />}
         {subVista === 'inventario' && <Inventario />}
         {subVista === 'actividades' && <RegistroActividades />}
-        {subVista === 'certificaciones' && <Certificaciones />}
       </div>
     </div>
   );

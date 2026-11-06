@@ -72,3 +72,20 @@ export const obtenerTodosLosAnimales = async () => {
   if (!res.ok) throw new Error('Error al cargar la lista general de animales.');
   return await res.json();
 };
+
+export const animalesService = {
+  registrarAnimal: async (adminId, animalData) => {
+    const res = await fetch(`${API_BASE_URL}/animales/crear?adminId=${adminId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(animalData)
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || 'Error al registrar el animal en el servidor.');
+    }
+    
+    return await res.json();
+  }
+};

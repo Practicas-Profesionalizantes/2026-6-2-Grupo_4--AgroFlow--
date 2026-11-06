@@ -145,6 +145,10 @@
   height: 20px;
 }
 
+.ea-input-icon.etiqueta {
+  transform: translateY(-50%);
+}
+
 .ea-text-input, .ea-select-input, .ea-textarea-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;

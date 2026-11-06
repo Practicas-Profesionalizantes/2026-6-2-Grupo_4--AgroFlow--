@@ -64,7 +64,8 @@
 }
 
 .mod-tab-btn:hover {
-  color: #0E4194;
+  background-color: #0E4194;
+  color: #ffffff;
 }
 
 .mod-tab-btn.active {

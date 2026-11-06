@@ -150,6 +150,10 @@
   height: 20px;
 }
 
+.al-input-icon.etiqueta{
+  transform: translateY(-50%);
+}
+
 .al-text-input, .al-select-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;

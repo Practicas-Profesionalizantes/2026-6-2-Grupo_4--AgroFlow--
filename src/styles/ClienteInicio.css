@@ -54,7 +54,7 @@
   position: absolute;
   left: 0.85rem;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-100%);
   color: #747783;
   width: 18px;
   height: 18px;
@@ -78,7 +78,6 @@
   box-shadow: 0 0 0 3px rgba(14, 65, 148, 0.15);
 }
 
-/* Grid de Productos estilo ML */
 .cli-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -179,7 +178,6 @@
   font-weight: 700;
 }
 
-/* Vista de Detalle (Estilo Producto ML) */
 .cli-btn-back {
   display: inline-flex;
   align-items: center;
@@ -192,7 +190,12 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  padding: 0;
+  padding: 6px 15px;
+  width: auto;
+}
+
+.cli-btn-back:hover { 
+  color: #ffffff; 
 }
 
 .cli-detail-card {
@@ -300,7 +303,9 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.cli-btn-cert:hover { background-color: #b0c6ff; }
+.cli-btn-cert:hover { 
+  background-color: #b0c6ff;
+}
 
 .cli-btn-chat {
   display: flex;
