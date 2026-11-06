@@ -27,6 +27,14 @@ public class AnimalesController {
         return ResponseEntity.ok(animalesService.listarTodos());
     }
 
+    @PostMapping("/crear")
+    public ResponseEntity<Animales> crearAnimal(@RequestParam Integer adminId,
+                                                @RequestBody Animales animal) {
+        Usuario admin = usuarioService.obtenerPorId(adminId)
+                .orElseThrow(() -> new RuntimeException("Administrador/Usuario no encontrado"));
+        return ResponseEntity.ok(animalesService.crearAnimal(admin, animal));
+    }
+
     @PutMapping("/{id}/asignar-lote")
     public ResponseEntity<Animales> asignarLote(@PathVariable Integer id, 
                                                 @RequestParam Integer empleadoId, 

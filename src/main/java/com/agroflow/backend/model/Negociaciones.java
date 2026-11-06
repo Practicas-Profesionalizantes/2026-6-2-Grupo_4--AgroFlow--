@@ -17,7 +17,7 @@ public class Negociaciones {
     private Usuario proponente;
 
     @ManyToOne
-    @JoinColumn(name = "contraparte_id", nullable = false)
+    @JoinColumn(name = "contraparte_id")
     private Usuario contraparte;
 
     @Column(name = "fecha_oferta", nullable = false)

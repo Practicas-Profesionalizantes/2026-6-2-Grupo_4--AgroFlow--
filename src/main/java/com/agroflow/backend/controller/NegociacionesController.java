@@ -54,4 +54,9 @@ public class NegociacionesController {
     public ResponseEntity<List<Negociaciones>> obtenerHistorialPorAnimal(@PathVariable Integer animalId) {
         return ResponseEntity.ok(negociacionesService.obtenerHistorialPorAnimal(animalId));
     }
+
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<Negociaciones>> obtenerPorCliente(@PathVariable Integer clienteId) {
+        return ResponseEntity.ok(negociacionesService.obtenerNegociacionesPorCliente(clienteId));
+    }
 }

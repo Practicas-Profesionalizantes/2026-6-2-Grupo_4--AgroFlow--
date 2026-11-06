@@ -22,6 +22,15 @@ public class AnimalesService {
         return animalesRepository.findAll();
     }
 
+    public Animales crearAnimal(Usuario admin, Animales animal) {
+        if (admin == null || (!"Administrador".equalsIgnoreCase(admin.getRol()) && !"Supervisor".equalsIgnoreCase(admin.getRol()))) {
+            throw new RuntimeException("Acceso denegado: Solo el Administrador o Supervisor pueden registrar animales.");
+        }
+        Animales guardado = animalesRepository.save(animal);
+        actividadesService.registrarAccion(admin, "Registró un nuevo animal/lote ID: " + guardado.getId());
+        return guardado;
+    }
+
     public Animales asignarLote(Usuario empleado, Animales animal, Agrupamiento lote) {
         if (empleado == null || (!"Operario".equalsIgnoreCase(empleado.getRol()) && !"Administrador".equalsIgnoreCase(empleado.getRol()))) {
             throw new RuntimeException("Acceso denegado: Rol no autorizado para agrupar animales.");

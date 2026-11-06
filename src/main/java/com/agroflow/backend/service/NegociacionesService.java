@@ -19,10 +19,7 @@ public class NegociacionesService {
     private ActividadesService actividadesService;
 
     public Negociaciones crearOfertaCliente(Usuario cliente, Animales animal, BigDecimal precioDeslizador) {
-        if (cliente == null || !"Cliente".equalsIgnoreCase(cliente.getRol())) {
-            throw new RuntimeException("Acceso denegado: Solo los clientes pueden iniciar ofertas por animales.");
-        }
-        
+    
         Negociaciones nuevaOferta = new Negociaciones(cliente, null, precioDeslizador, "Pendiente", animal);
         Negociaciones guardada = negociacionesRepository.save(nuevaOferta);
         
@@ -65,4 +62,8 @@ public class NegociacionesService {
     public List<Negociaciones> obtenerHistorialPorAnimal(Integer animalId) {
         return negociacionesRepository.findByAnimalId(animalId);
     }
+
+    public List<Negociaciones> obtenerNegociacionesPorCliente(Integer clienteId) {
+    return negociacionesRepository.findByProponenteId(clienteId);
+}
 }

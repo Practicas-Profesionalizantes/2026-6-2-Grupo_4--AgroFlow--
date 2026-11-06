@@ -28,6 +28,9 @@ public class Animales {
     @Column(length = 50)
     private String estado;
 
+    @Column(length = 255)
+    private String imagen;
+
     @ManyToOne
     @JoinColumn(name = "agrupamiento_id")
     private Agrupamiento agrupamiento;
@@ -99,6 +102,14 @@ public class Animales {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public Agrupamiento getAgrupamiento() {

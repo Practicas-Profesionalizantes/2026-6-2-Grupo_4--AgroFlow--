@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface NegociacionesRepository extends JpaRepository<Negociaciones, Integer> {
     List<Negociaciones> findByAnimalId(Integer animalId);
+    List<Negociaciones> findByProponenteId(Integer proponenteId);
 }
